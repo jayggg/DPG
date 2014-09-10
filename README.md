@@ -22,7 +22,7 @@ is heavily commented) in this order:
 context. Load the file and press Solve button repeatedly to proceed to
 next adaptive iteration.
 
-3) Slving Helmholtz equation:
+3) Solving Helmholtz equation:
 
       helmholtz1.pde - simplest DPG method for Helmholtz eq w/impedance bc
    
