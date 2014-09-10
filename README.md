@@ -1,7 +1,8 @@
 DPG in NGSolve
 ==============
 
-This repository makes a shared library that can be added onto NGSolve. 
+This repository makes a shared library that can be added onto 
+NGSolve [http://sourceforge.net/projects/ngsolve/].
 Its aim is to provide facilities to experiment with Discontinuous
 Petrov Galerkin (DPG) methods.
 
