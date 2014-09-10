@@ -23,8 +23,11 @@ context. Load the file and press Solve button repeatedly to proceed to
 next adaptive iteration.
 
 3) helmholtz1.pde - simplest DPG method for Helmholtz eq w/impedance bc
+
    helmholtz2.pde - another way to implement impedance bc w/vol elts
+   
    helmholtz3.pde - changing formulation to implement impedance bc
+   
    helmholtz4.pde - yet another, completely hybridized formulation
 
 4) scatteradaptive.pde - adaptively compute a scattered wave
