@@ -1,5 +1,5 @@
 DPG in NGSolve
-==============
+=============
 
 This repository makes a shared library that can be added onto 
 NGSolve [http://sourceforge.net/projects/ngsolve/].
@@ -22,18 +22,11 @@ is heavily commented) in this order:
 context. Load the file and press Solve button repeatedly to proceed to
 next adaptive iteration.
 
-3) Solving Helmholtz equation:
+3) helmholtz.pde - Solve the Helmholtz equation with impedance bc.
 
-      helmholtz1.pde - simplest DPG method for Helmholtz eq w/impedance bc
-   
-      helmholtz2.pde - another way to implement impedance bc w/vol elts
-   
-      helmholtz3.pde - changing formulation to implement impedance bc
-   
-      helmholtz4.pde - yet another, completely hybridized formulation
+4) scatteradaptive.pde - Adaptively compute a scattered wave
 
-4) scatteradaptive.pde - adaptively compute a scattered wave
+5) planewave3d.pde - Compute a 3D wave using DPG method
 
-5) planewave3d - Compute a 3D wave using DPG method
-
-
+To use any of these pde files as input, first type "make" on a Mac or
+Linux terminal, then "netgen", and then load the pde file. 
