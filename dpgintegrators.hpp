@@ -236,7 +236,7 @@ namespace dpg {
   			      LocalHeap & lh)  const ; 
   public:
 
-    FluxFluxBoundary(Array<CoefficientFunction*> & coeffs)
+    FluxFluxBoundary(const Array<CoefficientFunction*> & coeffs)
       : DPGintegrator(coeffs), coeff_c(coeffs[2]) {
 
       cout << "Using DPG integrator " << Name() << " with components "
@@ -285,7 +285,7 @@ namespace dpg {
   			      LocalHeap & lh)  const ; 
   public:
 
-    TraceTraceBoundary(Array<CoefficientFunction*> & coeffs)
+    TraceTraceBoundary(const Array<CoefficientFunction*> & coeffs)
       : DPGintegrator(coeffs), coeff_c(coeffs[2]) {
 
       cout << "Using DPG integrator " << Name() << " with components "
@@ -341,7 +341,7 @@ namespace dpg {
   public:
  
 
-    RobinVolume(Array<CoefficientFunction*> & coeffs)
+    RobinVolume(const Array<CoefficientFunction*> & coeffs)
       : DPGintegrator(coeffs), coeff_c(coeffs[2]) {
 
       cout << "Using DPG integrator " << Name() << " with components "
@@ -405,7 +405,7 @@ namespace dpg {
 
   public: 
 
-    NeumannVolume(Array<CoefficientFunction*> & coeffs) 
+    NeumannVolume(const Array<CoefficientFunction*> & coeffs) 
       : coeff_index(coeffs[0]), coeff_g(coeffs[1]), 
 	coeff_Gx(coeffs[2]), coeff_Gy(coeffs[3]), coeff_Gz(coeffs[4]) {
 
@@ -456,7 +456,7 @@ namespace dpg {
   			      LocalHeap & lh)  const ; 
   public:
 
-    FluxTraceBoundary(Array<CoefficientFunction*> & coeffs)
+    FluxTraceBoundary(const Array<CoefficientFunction*> & coeffs)
       : DPGintegrator(coeffs), coeff_c(coeffs[2]) {
 
       cout << "Using DPG integrator " << Name() << " with components "
@@ -491,4 +491,3 @@ namespace dpg {
 }
 
 #endif
-
