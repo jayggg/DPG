@@ -31,14 +31,14 @@ namespace dpg {
 
   class DPGintegrator : public BilinearFormIntegrator  {
 
-    CoefficientFunction * comp1;
-    CoefficientFunction * comp2;
+    shared_ptr<CoefficientFunction> comp1;
+    shared_ptr<CoefficientFunction> comp2;
     int ind1;
     int ind2;
 
   public:
     
-    DPGintegrator(const Array<CoefficientFunction*> & coeffs) 
+    DPGintegrator(const Array<shared_ptr<CoefficientFunction>> & coeffs) 
       : comp1(coeffs[0]), comp2(coeffs[1]) {
 
       ind1 = int( comp1 -> EvaluateConst() ) - 1 ;
@@ -56,7 +56,7 @@ namespace dpg {
 
   template<int D> class GradGrad : public DPGintegrator {
     
-    CoefficientFunction         * coeff_a;
+    shared_ptr<CoefficientFunction> coeff_a;
 
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
@@ -65,7 +65,7 @@ namespace dpg {
 			      LocalHeap & lh)  const ;        
   public:
     
-    GradGrad(const Array<CoefficientFunction*> & coeffs) 
+    GradGrad(const Array<shared_ptr<CoefficientFunction>> & coeffs) 
       : DPGintegrator(coeffs), coeff_a(coeffs[2])  {
 
       cout << "Using DPG integrator " << Name() << " with components "
@@ -101,7 +101,7 @@ namespace dpg {
 
   template<int D> class FluxTrace : public DPGintegrator {
     
-    CoefficientFunction         * coeff_d;
+    shared_ptr<CoefficientFunction>  coeff_d;
     
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
@@ -111,7 +111,7 @@ namespace dpg {
     
   public:
     
-    FluxTrace(const Array<CoefficientFunction*> & coeffs) 
+    FluxTrace(const Array<shared_ptr<CoefficientFunction>> & coeffs) 
       : DPGintegrator(coeffs), coeff_d(coeffs[2])  {
 
       cout << "Using DPG integrator " << Name() << " with components "
@@ -142,7 +142,7 @@ namespace dpg {
 
   template<int D> class EyeEye : public DPGintegrator  {
     
-    CoefficientFunction * coeff_a;
+    shared_ptr<CoefficientFunction> coeff_a;
     
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
@@ -152,7 +152,7 @@ namespace dpg {
 
   public:
     
-    EyeEye(const Array<CoefficientFunction*> & coeffs) 
+    EyeEye(const Array<shared_ptr<CoefficientFunction>> & coeffs) 
       : DPGintegrator(coeffs), coeff_a(coeffs[2])  {
     
       cout << "Using DPG integrator " << Name() << " with components "
@@ -185,7 +185,7 @@ namespace dpg {
 
   template<int D> class TraceTrace : public DPGintegrator  {
     
-    CoefficientFunction * coeff_c;
+    shared_ptr<CoefficientFunction> coeff_c;
     
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
@@ -195,7 +195,7 @@ namespace dpg {
 
   public:
     
-    TraceTrace(const Array<CoefficientFunction*> & coeffs) 
+    TraceTrace(const Array<shared_ptr<CoefficientFunction>> & coeffs) 
       : DPGintegrator(coeffs), coeff_c(coeffs[2])  {
 
       cout << "Using DPG integrator " << Name() << " with components "
@@ -227,7 +227,7 @@ namespace dpg {
   template<int D> 
   class FluxFluxBoundary : public DPGintegrator   {
     
-    CoefficientFunction * coeff_c;
+    shared_ptr<CoefficientFunction> coeff_c;
     
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
@@ -236,7 +236,7 @@ namespace dpg {
   			      LocalHeap & lh)  const ; 
   public:
 
-    FluxFluxBoundary(const Array<CoefficientFunction*> & coeffs)
+    FluxFluxBoundary(const Array<shared_ptr<CoefficientFunction>> & coeffs)
       : DPGintegrator(coeffs), coeff_c(coeffs[2]) {
 
       cout << "Using DPG integrator " << Name() << " with components "
@@ -276,7 +276,7 @@ namespace dpg {
   template<int D> 
   class TraceTraceBoundary : public DPGintegrator   {
     
-    CoefficientFunction * coeff_c;
+    shared_ptr<CoefficientFunction> coeff_c;
     
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
@@ -285,7 +285,7 @@ namespace dpg {
   			      LocalHeap & lh)  const ; 
   public:
 
-    TraceTraceBoundary(const Array<CoefficientFunction*> & coeffs)
+    TraceTraceBoundary(const Array<shared_ptr<CoefficientFunction>> & coeffs)
       : DPGintegrator(coeffs), coeff_c(coeffs[2]) {
 
       cout << "Using DPG integrator " << Name() << " with components "
@@ -330,7 +330,7 @@ namespace dpg {
   template<int D> 
   class RobinVolume : public DPGintegrator   {
     
-    CoefficientFunction * coeff_c;
+    shared_ptr<CoefficientFunction> coeff_c;
 
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
@@ -341,7 +341,7 @@ namespace dpg {
   public:
  
 
-    RobinVolume(const Array<CoefficientFunction*> & coeffs)
+    RobinVolume(const Array<shared_ptr<CoefficientFunction>> & coeffs)
       : DPGintegrator(coeffs), coeff_c(coeffs[2]) {
 
       cout << "Using DPG integrator " << Name() << " with components "
@@ -390,11 +390,11 @@ namespace dpg {
   template<int D> 
   class NeumannVolume : public LinearFormIntegrator   {
     
-    CoefficientFunction * coeff_index;
-    CoefficientFunction * coeff_g;
-    CoefficientFunction * coeff_Gx;
-    CoefficientFunction * coeff_Gy;
-    CoefficientFunction * coeff_Gz;
+    shared_ptr<CoefficientFunction> coeff_index;
+    shared_ptr<CoefficientFunction> coeff_g;
+    shared_ptr<CoefficientFunction> coeff_Gx;
+    shared_ptr<CoefficientFunction> coeff_Gy;
+    shared_ptr<CoefficientFunction> coeff_Gz;
 
     template<class SCAL>
     void T_CalcElementVector (const FiniteElement & base_fel,
@@ -405,7 +405,7 @@ namespace dpg {
 
   public: 
 
-    NeumannVolume(const Array<CoefficientFunction*> & coeffs) 
+    NeumannVolume(const Array<shared_ptr<CoefficientFunction>> & coeffs) 
       : coeff_index(coeffs[0]), coeff_g(coeffs[1]), 
 	coeff_Gx(coeffs[2]), coeff_Gy(coeffs[3]), coeff_Gz(coeffs[4]) {
 
@@ -447,7 +447,7 @@ namespace dpg {
   template<int D> 
   class FluxTraceBoundary : public DPGintegrator   {
     
-    CoefficientFunction * coeff_c;
+    shared_ptr<CoefficientFunction> coeff_c;
     
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
@@ -456,7 +456,7 @@ namespace dpg {
   			      LocalHeap & lh)  const ; 
   public:
 
-    FluxTraceBoundary(const Array<CoefficientFunction*> & coeffs)
+    FluxTraceBoundary(const Array<shared_ptr<CoefficientFunction>> & coeffs)
       : DPGintegrator(coeffs), coeff_c(coeffs[2]) {
 
       cout << "Using DPG integrator " << Name() << " with components "
