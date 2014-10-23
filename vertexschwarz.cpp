@@ -79,6 +79,21 @@ namespace ngcomp  {
     const FESpace & fes = bfa -> GetFESpace();
     
 
+    BitArray used (fes.GetNDof());
+    used.Clear();
+    for (int i = 0; i < ma.GetNE(); i++)
+      {
+        Array<int> dofs;
+        fes.GetDofNrs (i, dofs);
+        for (int j = 0; j < dofs.Size(); j++)
+          used.Set (dofs[j]);
+      }
+    for (int i = 0; i < fes.GetNDof(); i++)
+      if (freedofs->Test(i) && !used.Test(i))
+        cerr << "freedof, but never used: " << i << endl;
+        
+    
+
     /**** First attempt at making the required sparse matrices: */
 
     // int nv = ma.GetNV();
