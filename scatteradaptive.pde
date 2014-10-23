@@ -2,9 +2,9 @@
 # from a triangular scatterer. Adaptivity puts relatively more
 # elements where the beam-like scattered wave is present.
 #
-# One can use any of the methods in helmholtz1 ... helmholtz4.pde
-# and the results were observed to be similar. The implementation 
-# here is that of helmholtz4.pde.
+# One can use any of the different possible implementation 
+# techniques for the Helmholtz equation with impedance bc.
+# (The results were observed not to depend on which.)
 #
 ################################################################
 # Compute scattered wave from a triangular scatterer. 
@@ -117,7 +117,8 @@ mass                ksqr  -comp=1
 # Solve:
 gridfunction euqf -fespace=fs
 
-preconditioner c  -type=direct -bilinearform=dpg 
+#preconditioner c  -type=direct -bilinearform=dpg 
+preconditioner c  -type=vertexschwarz -bilinearform=dpg 
 #preconditioner c  -type=local -bilinearform=dpg 
 
 numproc bvp n2 -bilinearform=dpg -linearform=lf 
@@ -149,7 +150,7 @@ gridfunction utot  -fespace=fs2 -addcoef
 numproc getcomp   npgu -comp=2 -compoundgf=euqf -componentgf=uscat
 numproc setvalues npsv -gridfunction=uinc -coefficient=uincident
 
-coefficient utotal   (uscat+uincident)
+coefficient utotal   (uscat+uinc)
 
 numproc setvalues npsv -gridfunction=utot -coefficient=utotal
 

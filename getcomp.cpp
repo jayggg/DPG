@@ -48,26 +48,27 @@ public:
     
     cout << "GetComponent " << ind+1 << ", of type " 
 	 << gf2 -> GetFESpace(). GetClassName() << flush ;
-    int n = gf2->GetVector().FV<double>(). Size();
 
     if(re) {
       
       cout<<", REAL part"<<endl;
       
-      for (int i=0; i< n; i++ ) 
+      for (int i=0; i < gf2->GetVector().FV<double>().Size(); i++ ) 
 	gf2->GetVector().FV<double>()[i]  = 
 	  (gf1->GetComponent(ind)->GetVector().FV<Complex>()[i] ). real();
     }
     else if(im) {
 
       cout<<", IMAG part"<<endl;
-      for (int i=0; i< n; i++ ) 
+      for (int i=0; i< gf2->GetVector().FV<double>().Size(); i++ ) 
 	gf2->GetVector().FV<double>()[i]  = 
 	  (gf1->GetComponent(ind)->GetVector().FV<Complex>()[i] ). imag();
     }
     else {
+      
       cout << endl ;
-      gf2->GetVector()=gf1->GetComponent(ind)->GetVector();    
+      gf2->GetVector() = gf1->GetComponent(ind)->GetVector(); 
+
     }
   }
 
