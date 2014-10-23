@@ -20,10 +20,10 @@ namespace ngcomp  {
   
   class VertexPatchSchwarz : public Preconditioner  {
 
-    const BilinearForm     * bfa;
-    BaseBlockJacobiPrecond * jacobi;
-    BaseMatrix             * coarseinv;
-    bool                     addcoarse; 
+    shared_ptr<BilinearForm> bfa;
+    shared_ptr<BaseBlockJacobiPrecond> jacobi;
+    shared_ptr<BaseMatrix>  coarseinv;
+    bool                    addcoarse; 
 
   public:
 
@@ -66,29 +66,33 @@ namespace ngcomp  {
   }
     
   
-  VertexPatchSchwarz :: ~VertexPatchSchwarz ()  { delete jacobi; }
+  VertexPatchSchwarz :: ~VertexPatchSchwarz ()  
+  { 
+    // noting to delete with shared ptr
+    // delete jacobi; 
+  }
 
   
   void VertexPatchSchwarz :: Update()   {
 
-    delete jacobi;
+    // delete jacobi;
 
     const BaseSparseMatrix & mat 
       = dynamic_cast<const BaseSparseMatrix&> (bfa->GetMatrix());
-    const BitArray * freedofs = bfa->GetFESpace().GetFreeDofs();
-    const FESpace & fes = bfa -> GetFESpace();
+    const BitArray * freedofs = bfa->GetFESpace()->GetFreeDofs();
+    shared_ptr<FESpace> fes = bfa -> GetFESpace();
     
 
-    BitArray used (fes.GetNDof());
+    BitArray used (fes->GetNDof());
     used.Clear();
-    for (int i = 0; i < ma.GetNE(); i++)
+    for (int i = 0; i < ma->GetNE(); i++)
       {
         Array<int> dofs;
-        fes.GetDofNrs (i, dofs);
+        fes->GetDofNrs (i, dofs);
         for (int j = 0; j < dofs.Size(); j++)
           used.Set (dofs[j]);
       }
-    for (int i = 0; i < fes.GetNDof(); i++)
+    for (int i = 0; i < fes->GetNDof(); i++)
       if (freedofs->Test(i) && !used.Test(i))
         cerr << "freedof, but never used: " << i << endl;
         
@@ -96,17 +100,17 @@ namespace ngcomp  {
 
     /**** First attempt at making the required sparse matrices: */
 
-    // int nv = ma.GetNV();
+    // int nv = ma->GetNV();
 
     // // cnt[p] = number of all dofs connected to vertex number p
     // Array<int> cnt(nv);
     // cnt = 1;   // vertex counted
 
-    // for (int i=0; i < ma.GetNEdges(); i++) {
+    // for (int i=0; i < ma->GetNEdges(); i++) {
       
     //   Array<int> dofs, pnums;
-    //   ma.GetEdgePNums(i,pnums);  // pnums = vertices of the edge
-    //   fes.GetEdgeDofNrs(i,dofs);   // 
+    //   ma->GetEdgePNums(i,pnums);  // pnums = vertices of the edge
+    //   fes->GetEdgeDofNrs(i,dofs);   // 
       
     //   for (int j=0; j<2; j++) 
 	
@@ -122,11 +126,11 @@ namespace ngcomp  {
 
     // cnt = 1;
 
-    // for (int i=0; i < ma.GetNEdges(); i++) {
+    // for (int i=0; i < ma->GetNEdges(); i++) {
       
     //   Array<int> dofs, pnums;
-    //   ma.GetEdgePNums(i,pnums);  // pnums = vertices of the edge
-    //   fes.GetEdgeDofNrs(i,dofs);   // 
+    //   ma->GetEdgePNums(i,pnums);  // pnums = vertices of the edge
+    //   fes->GetEdgeDofNrs(i,dofs);   // 
       
     //   for (int j=0; j<2; j++) 
     // 	for (int l=0; l<dofs.Size(); l++) 
@@ -151,36 +155,36 @@ namespace ngcomp  {
       
       Array<int> vdofs, dofs, pnums;
 
-      for (int i=0; i<ma.GetNV(); i++) {
+      for (int i=0; i<ma->GetNV(); i++) {
 	
 	// vdofs = dof# of vertex i (many for compound space)
-	fes.GetVertexDofNrs(i,vdofs);
+	fes->GetVertexDofNrs(i,vdofs);
 
 	// to the block of vertex i, add that vertex dof
 	creator.Add(i, vdofs);  // Add(block#, array of dof#s)
       }
 
-      for (int i=0; i < ma.GetNEdges(); i++) {
+      for (int i=0; i < ma->GetNEdges(); i++) {
       	
 	// pnums = endpoint vertices of edge i
-	  ma.GetEdgePNums(i,pnums); 
+	  ma->GetEdgePNums(i,pnums); 
 	  
 	  // collect dof nums interior to edge i in dofs.
-	  fes.GetEdgeDofNrs(i,dofs);
+	  fes->GetEdgeDofNrs(i,dofs);
 	
 	for (int j=0; j<2; j++) 
 	  creator.Add(pnums[j],dofs);
       }
       
-      if (ma.GetDimension()==3) {   // 3D case 
+      if (ma->GetDimension()==3) {   // 3D case 
 
-	for (int i=0; i < ma.GetNFaces(); i++) {      
+	for (int i=0; i < ma->GetNFaces(); i++) {      
 
 	  // pnums = vertices of face i
-	  ma.GetFacePNums(i,pnums); 
+	  ma->GetFacePNums(i,pnums); 
 	  
 	  // collect dof nums interior to face i in dofs.
-	  fes.GetFaceDofNrs(i,dofs);
+	  fes->GetFaceDofNrs(i,dofs);
 	  
 	  for (int j=0; j<pnums.Size(); j++) 
 	    creator.Add(pnums[j],dofs);
@@ -195,14 +199,14 @@ namespace ngcomp  {
     jacobi = mat.CreateBlockJacobiPrecond (*creator.GetTable());
 
     if (addcoarse) {
-      int ndof = fes.GetNDof();
+      int ndof = fes->GetNDof();
       BitArray * coarsedofs = new BitArray(ndof);
       coarsedofs->Clear();
 
       for (int i=0; i<ndof; i++) 
-	if (fes.GetDofCouplingType(i) == WIREBASKET_DOF)
+	if (fes->GetDofCouplingType(i) == WIREBASKET_DOF)
 	  coarsedofs->Set(i);
-      coarsedofs->And(*fes.GetFreeDofs());
+      coarsedofs->And(*fes->GetFreeDofs());
 
       coarseinv = mat.InverseMatrix(coarsedofs);
     }

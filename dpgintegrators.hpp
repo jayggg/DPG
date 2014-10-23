@@ -61,7 +61,7 @@ namespace dpg {
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
 			      const ElementTransformation & eltrans, 
-			      FlatMatrix<SCAL> & elmat,
+			      FlatMatrix<SCAL> elmat,
 			      LocalHeap & lh)  const ;        
   public:
     
@@ -78,14 +78,14 @@ namespace dpg {
 
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<double> & elmat,
+			    FlatMatrix<double> elmat,
 			    LocalHeap & lh) const {
       T_CalcElementMatrix<double>(base_fel,eltrans,elmat,lh);
 					       
     }
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<Complex> & elmat,
+			    FlatMatrix<Complex> elmat,
 			    LocalHeap & lh) const {
       T_CalcElementMatrix<Complex>(base_fel,eltrans,elmat, lh);    
     }
@@ -106,7 +106,7 @@ namespace dpg {
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
 			      const ElementTransformation & eltrans, 
-			      FlatMatrix<SCAL> & elmat,
+			      FlatMatrix<SCAL> elmat,
 			      LocalHeap & lh)  const ;
     
   public:
@@ -124,14 +124,14 @@ namespace dpg {
 
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<double> & elmat,
+			    FlatMatrix<double> elmat,
 			    LocalHeap & lh) const {
       T_CalcElementMatrix<double>(base_fel,eltrans,elmat,lh);
 					       
     }
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<Complex> & elmat,
+			    FlatMatrix<Complex> elmat,
 			    LocalHeap & lh) const {
       T_CalcElementMatrix<Complex>(base_fel,eltrans,elmat, lh);    
     }
@@ -147,7 +147,7 @@ namespace dpg {
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
 			      const ElementTransformation & eltrans, 
-			      FlatMatrix<SCAL> & elmat,
+			      FlatMatrix<SCAL> elmat,
 			      LocalHeap & lh)  const ;
 
   public:
@@ -166,14 +166,14 @@ namespace dpg {
 
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<double> & elmat,
+			    FlatMatrix<double> elmat,
 			    LocalHeap & lh) const {
       T_CalcElementMatrix<double>(base_fel,eltrans,elmat,lh);
 					       
     }
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<Complex> & elmat,
+			    FlatMatrix<Complex> elmat,
 			    LocalHeap & lh) const {
       T_CalcElementMatrix<Complex>(base_fel,eltrans,elmat, lh);    
     }
@@ -190,7 +190,7 @@ namespace dpg {
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
 			      const ElementTransformation & eltrans, 
-			      FlatMatrix<SCAL> & elmat,
+			      FlatMatrix<SCAL> elmat,
 			      LocalHeap & lh)  const ;
 
   public:
@@ -207,14 +207,14 @@ namespace dpg {
     virtual bool BoundaryForm () const { return false; }
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<double> & elmat,
+			    FlatMatrix<double> elmat,
 			    LocalHeap & lh) const {
       T_CalcElementMatrix<double>(base_fel,eltrans,elmat,lh);
 					       
     }
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<Complex> & elmat,
+			    FlatMatrix<Complex> elmat,
 			    LocalHeap & lh) const {
       T_CalcElementMatrix<Complex>(base_fel,eltrans,elmat, lh);    
     }
@@ -232,7 +232,7 @@ namespace dpg {
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
   			      const ElementTransformation & eltrans, 
-  			      FlatMatrix<SCAL> & elmat,
+  			      FlatMatrix<SCAL> elmat,
   			      LocalHeap & lh)  const ; 
   public:
 
@@ -250,14 +250,14 @@ namespace dpg {
 
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<double> & elmat,
+			    FlatMatrix<double> elmat,
 			    LocalHeap & lh) const {
       T_CalcElementMatrix<double>(base_fel,eltrans,elmat,lh);
 					       
     }
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<Complex> & elmat,
+			    FlatMatrix<Complex> elmat,
 			    LocalHeap & lh) const {
       T_CalcElementMatrix<Complex>(base_fel,eltrans,elmat, lh);    
     }
@@ -281,7 +281,7 @@ namespace dpg {
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
   			      const ElementTransformation & eltrans, 
-  			      FlatMatrix<SCAL> & elmat,
+  			      FlatMatrix<SCAL> elmat,
   			      LocalHeap & lh)  const ; 
   public:
 
@@ -299,7 +299,7 @@ namespace dpg {
 
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<double> & elmat,
+			    FlatMatrix<double> elmat,
 			    LocalHeap & lh) const {
       T_CalcElementMatrix<double>(base_fel,eltrans,elmat,lh);
 					       
@@ -335,7 +335,7 @@ namespace dpg {
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
 			      const ElementTransformation & eltrans, 
-			      FlatMatrix<SCAL> & elmat,
+			      FlatMatrix<SCAL> elmat,
 			      LocalHeap & lh)  const ;
 
   public:
@@ -356,7 +356,7 @@ namespace dpg {
 
     void CalcElementMatrix (const FiniteElement & base_fel,
     			    const ElementTransformation & eltrans, 
-    			    FlatMatrix<double> & elmat,
+    			    FlatMatrix<double> elmat,
     			    LocalHeap & lh) const {
       
       T_CalcElementMatrix<double>(base_fel, eltrans, elmat, lh); 
@@ -364,7 +364,7 @@ namespace dpg {
     
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<Complex> & elmat,
+			    FlatMatrix<Complex> elmat,
 			    LocalHeap & lh) const {
 
       T_CalcElementMatrix<Complex>(base_fel, eltrans, elmat, lh); 
@@ -399,7 +399,7 @@ namespace dpg {
     template<class SCAL>
     void T_CalcElementVector (const FiniteElement & base_fel,
 			      const ElementTransformation & eltrans, 
-			      FlatVector<SCAL> & elvec,
+			      FlatVector<SCAL> elvec,
 			      LocalHeap & lh)  const ;
     int indx; 
 
@@ -423,7 +423,7 @@ namespace dpg {
 
     void CalcElementVector (const FiniteElement & base_fel,
     			    const ElementTransformation & eltrans, 
-    			    FlatVector<double> & elvec,
+    			    FlatVector<double> elvec,
     			    LocalHeap & lh) const {
       
       T_CalcElementVector<double>(base_fel, eltrans, elvec, lh); 
@@ -432,7 +432,7 @@ namespace dpg {
     
     void CalcElementVector (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatVector<Complex> & elvec,
+			    FlatVector<Complex> elvec,
 			    LocalHeap & lh) const {
 
       T_CalcElementVector<Complex>(base_fel, eltrans, elvec, lh); 
@@ -452,7 +452,7 @@ namespace dpg {
     template<class SCAL>
     void T_CalcElementMatrix (const FiniteElement & base_fel,
   			      const ElementTransformation & eltrans, 
-  			      FlatMatrix<SCAL> & elmat,
+  			      FlatMatrix<SCAL> elmat,
   			      LocalHeap & lh)  const ; 
   public:
 
@@ -471,14 +471,14 @@ namespace dpg {
 
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<double> & elmat,
+			    FlatMatrix<double> elmat,
 			    LocalHeap & lh) const {
       T_CalcElementMatrix<double>(base_fel,eltrans,elmat,lh);
 					       
     }
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<Complex> & elmat,
+			    FlatMatrix<Complex> elmat,
 			    LocalHeap & lh) const {
       T_CalcElementMatrix<Complex>(base_fel,eltrans,elmat, lh);    
     }

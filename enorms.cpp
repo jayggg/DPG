@@ -63,10 +63,10 @@ namespace dpg  {
 
   protected:
     
-    FESpace        *fes;
-    GridFunction   *sol;
-    GridFunction   *est;
-    BilinearForm   *bfa;
+    shared_ptr<FESpace>       fes;
+    shared_ptr<GridFunction>  sol;
+    shared_ptr<GridFunction>  est;
+    shared_ptr<BilinearForm>  bfa;
     Array<int> Yintegrators;
     Array<int> Yspaceind;
 
@@ -106,7 +106,7 @@ namespace dpg  {
       BaseVector& solvec = sol->GetVector();   
       estvec.FVDouble() = 0.0;
 
-      for(int k=0; k<ma.GetNE(); k++)  {
+      for(int k=0; k<ma->GetNE(); k++)  {
 	
 	const FiniteElement & fel = fes->GetFE(k,lh);
 	const CompoundFiniteElement & cfel = 
@@ -122,7 +122,7 @@ namespace dpg  {
 	  
 	  if (Yintegrators.Contains(ii)) {
 	    bfa->GetIntegrator(ii)->
-	      CalcElementMatrix(cfel,ma.GetTrafo(k,0,lh),xelmat,lh);
+	      CalcElementMatrix(cfel,ma->GetTrafo(k,0,lh),xelmat,lh);
 	    elmat += xelmat;
 	  }
 	} 
