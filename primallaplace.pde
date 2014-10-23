@@ -10,10 +10,10 @@
 #   Y(e;v)       +  b(u,q; v)  = (f,v)
 #   b(w,r; e)                  = 0
 #
-# where conj denotes complex conjugate,
+# where 
 #
-#  Y(e,v)            = (grad e, grad v) + (u,v)
-#  b(u,q,uh; v)      = (grad u, grad v) + (u,v) - <<q.n, v>> 
+#  Y(e,v)         = (grad e, grad v) + (u,v)
+#  b(u,q; v)      = (grad u, grad v) + (u,v) - <<q.n, v>> 
 #
 # and where
 #
