@@ -147,7 +147,7 @@ public:
 class L2HighOrderFESpaceTrace : public L2HighOrderFESpace  {
 
 public:
-  L2HighOrderFESpaceTrace (const MeshAccess & ama, 
+  L2HighOrderFESpaceTrace (shared_ptr<MeshAccess> ama, 
 			   const Flags & flags, 
                            bool parseflags=false)
     : L2HighOrderFESpace (ama, flags, parseflags)  { 
@@ -155,7 +155,7 @@ public:
     static ConstantCoefficientFunction one(1);
 
     boundary_integrator = // this integrator needed for visualization
-      GetIntegrators().CreateBFI("robin", ma.GetDimension(), &one);
+      GetIntegrators().CreateBFI("robin", ma->GetDimension(), &one);
   }
 
 
@@ -261,15 +261,15 @@ const FiniteElement &  L2HighOrderFESpaceTrace::
 GetSFE (int selnr, LocalHeap & lh) const {
 
   ArrayMem<int,10> fnums, elnums, vnums, svnums;
-  ELEMENT_TYPE et = ma.GetSElType (selnr);
+  ELEMENT_TYPE et = ma->GetSElType (selnr);
 
-  ma.GetSElFacets(selnr, fnums);  /* fnums = facet numbers of 
+  ma->GetSElFacets(selnr, fnums);  /* fnums = facet numbers of 
 				     surface elt number selnr */
   int fac = fnums[0];
-  ma.GetFacetElements(fac,elnums);/* elnums = elt numbers of the elt
+  ma->GetFacetElements(fac,elnums);/* elnums = elt numbers of the elt
 				     sharing facet number fac */
   int el = elnums[0];
-  ma.GetElFacets(el,fnums);       /* fnums = facet numbers of 
+  ma->GetElFacets(el,fnums);       /* fnums = facet numbers of 
 				     elt number el */
   const FiniteElement & fel = GetFE (el, lh);
   int facnr = 0;                  /* facnr = local facet number of
@@ -277,10 +277,10 @@ GetSFE (int selnr, LocalHeap & lh) const {
   for (int k=0; k<fnums.Size(); k++)
     if(fac==fnums[k]) facnr = k;
   
-  ma.GetElVertices (el, vnums);     
-  ma.GetSElVertices (selnr, svnums);     
+  ma->GetElVertices (el, vnums);     
+  ma->GetSElVertices (selnr, svnums);     
   
-  if (ma.GetDimension() == 2)
+  if (ma->GetDimension() == 2)
     return *new (lh) TraceElement<2> (fel, facnr, et, vnums, svnums);
   else {
     return *new (lh) TraceElement<3> (fel, facnr, et, vnums, svnums);
@@ -293,9 +293,9 @@ void  L2HighOrderFESpaceTrace::
 GetSDofNrs(int selnr, Array<int> & dnums) const {
 
     Array<int> fnums, elnums;
-    ma.GetSElFacets(selnr, fnums);
+    ma->GetSElFacets(selnr, fnums);
     int fac = fnums[0];
-    ma.GetFacetElements(fac,elnums);
+    ma->GetFacetElements(fac,elnums);
 
     int el = elnums[0];
     if (elnums.Size() != 1)

@@ -26,8 +26,8 @@ class NumProcGetComponent : public NumProc  {
       
    */
   
-  GridFunction * gf1;
-  GridFunction * gf2;
+  shared_ptr<GridFunction> gf1;
+  shared_ptr<GridFunction> gf2;
   int ind;
   bool re;
   bool im;
@@ -47,7 +47,7 @@ public:
 
     
     cout << "GetComponent " << ind+1 << ", of type " 
-	 << gf2 -> GetFESpace(). GetClassName() << flush ;
+	 << gf2 -> GetFESpace() -> GetClassName() << flush ;
 
     if(re) {
       

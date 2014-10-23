@@ -46,14 +46,14 @@ class NumProcFluxError : public NumProc  {
 
    */
 
-   BilinearForm  * hdivip;
+  shared_ptr<BilinearForm> hdivip;
    
-   GridFunction  * Q;
-   GridFunction  * q;
-   GridFunction  * err;
+  shared_ptr<GridFunction> Q;
+  shared_ptr<GridFunction> q;
+  shared_ptr<GridFunction> err;
 
-   const FESpace * ext;
-   const FESpace * fes;
+  shared_ptr<FESpace> ext;
+  shared_ptr<FESpace> fes;
 
 public:
 
@@ -83,8 +83,9 @@ public:
     errvec.FV<double>() = 0.0;
     double sqer =0.0;   // this will contain the total error square
     
-    for(int k=0; k<ma.GetNE(); k++)  {
+    for(int k=0; k<ma->GetNE(); k++)  {
       
+      ElementId ei (VOL, k);
       double elndof = ext->GetFE(k,lh).GetNDof(); 
       Vector<SCAL> diff(elndof);           
       // dof nrs: global, global inner, local inner, local Schur
@@ -100,9 +101,9 @@ public:
       Matrix<double> elmat(elndof), elmat2(elndof);
       elmat = 0.0; elmat2 = 0.0;
       hdivip->GetIntegrator(0)->
-	CalcElementMatrix(ext->GetFE(k,0,lh),ma.GetTrafo(k,0,lh),elmat,lh);
+	CalcElementMatrix(ext->GetFE(ei,lh),ma->GetTrafo(ei,lh),elmat,lh);
       hdivip->GetIntegrator(1)->
-	CalcElementMatrix(ext->GetFE(k,0,lh),ma.GetTrafo(k,0,lh),elmat2,lh);
+	CalcElementMatrix(ext->GetFE(ei,lh),ma->GetTrafo(ei,lh),elmat2,lh);
       elmat += elmat2;
     
       // compute the H(div) Schur complement 

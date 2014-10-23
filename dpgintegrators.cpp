@@ -14,7 +14,7 @@ namespace dpg {
   template<int D> template <class SCAL>
   void GradGrad<D>::T_CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<SCAL> & elmat,
+			    FlatMatrix<SCAL> elmat,
 			    LocalHeap & lh) const {
     
     const CompoundFiniteElement &  cfel  // product space 
@@ -75,7 +75,7 @@ namespace dpg {
   template<int D> template <class SCAL>
   void FluxTrace<D>::T_CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<SCAL> & elmat,
+			    FlatMatrix<SCAL> elmat,
 			    LocalHeap & lh) const {
     
     const CompoundFiniteElement &  cfel  // product space 
@@ -154,7 +154,7 @@ namespace dpg {
   template<int D> template <class SCAL>
   void EyeEye<D>::T_CalcElementMatrix (const FiniteElement & base_fel,
 		     const ElementTransformation & eltrans, 
-		     FlatMatrix<SCAL> & elmat,
+		     FlatMatrix<SCAL> elmat,
 		     LocalHeap & lh) const {
    
 
@@ -206,7 +206,7 @@ namespace dpg {
   template<int D> template <class SCAL>
   void TraceTrace<D>::T_CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
-			    FlatMatrix<SCAL> & elmat,
+			    FlatMatrix<SCAL> elmat,
 			    LocalHeap & lh) const {
     
     const CompoundFiniteElement &  cfel  // product space 
@@ -281,7 +281,7 @@ namespace dpg {
   void FluxFluxBoundary<D> ::
   T_CalcElementMatrix (const FiniteElement & base_fel,
 		       const ElementTransformation & eltrans, 
-		       FlatMatrix<SCAL> & elmat,
+		       FlatMatrix<SCAL> elmat,
 		       LocalHeap & lh) const {
 
     const CompoundFiniteElement &  cfel      // product space 
@@ -351,7 +351,7 @@ namespace dpg {
   void TraceTraceBoundary<D> ::
   T_CalcElementMatrix (const FiniteElement & base_fel,
 		       const ElementTransformation & eltrans, 
-		       FlatMatrix<SCAL> & elmat,
+		       FlatMatrix<SCAL> elmat,
 		       LocalHeap & lh) const {
 
     const CompoundFiniteElement &  cfel      // product space 
@@ -417,7 +417,7 @@ namespace dpg {
   void RobinVolume<D> ::
   T_CalcElementMatrix (const FiniteElement & base_fel,
                        const ElementTransformation & eltrans, 
-                       FlatMatrix<SCAL> & elmat,
+                       FlatMatrix<SCAL> elmat,
                        LocalHeap & lh) const {
     
     ELEMENT_TYPE eltype                
@@ -515,7 +515,7 @@ namespace dpg {
   void NeumannVolume<D> ::
   T_CalcElementVector (const FiniteElement & base_fel,
 		       const ElementTransformation & eltrans, 
-		       FlatVector<SCAL> & elvec,
+		       FlatVector<SCAL> elvec,
 		       LocalHeap & lh) const {
 
     const CompoundFiniteElement &  cfel  
@@ -598,7 +598,7 @@ namespace dpg {
   void FluxTraceBoundary<D> ::
   T_CalcElementMatrix (const FiniteElement & base_fel,
 		       const ElementTransformation & eltrans, 
-		       FlatMatrix<SCAL> & elmat,
+		       FlatMatrix<SCAL> elmat,
 		       LocalHeap & lh) const {
 
     const CompoundFiniteElement &  cfel      // product space 
