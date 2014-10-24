@@ -117,8 +117,8 @@ mass                ksqr  -comp=1
 # Solve:
 gridfunction euqf -fespace=fs
 
-#preconditioner c  -type=direct -bilinearform=dpg 
-preconditioner c  -type=vertexschwarz -bilinearform=dpg 
+preconditioner c  -type=direct -bilinearform=dpg 
+#preconditioner c  -type=vertexschwarz -bilinearform=dpg 
 #preconditioner c  -type=local -bilinearform=dpg 
 
 numproc bvp n2 -bilinearform=dpg -linearform=lf 
@@ -142,17 +142,6 @@ numproc enormsc estimate_using_e_norm -bilinearform=dpg -fespace=fs
 numproc markelements mark_large_error_elements
         -error=eestim -minlevel=1 -factor=0.25 
 
-# Compute total wave 
-gridfunction uscat -fespace=fs2 -addcoef
-gridfunction uinc  -fespace=fs2 -addcoef
-gridfunction utot  -fespace=fs2 -addcoef
-
-numproc getcomp   npgu -comp=2 -compoundgf=euqf -componentgf=uscat
-numproc setvalues npsv -gridfunction=uinc -coefficient=uincident
-
-coefficient utotal   (uscat+uinc)
-
-numproc setvalues npsv -gridfunction=utot -coefficient=utotal
 
 # Visualize
 numproc visualization see_real_part 
