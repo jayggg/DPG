@@ -29,6 +29,9 @@ namespace ngcomp  {
 
     VertexPatchSchwarz (const PDE & pde, const Flags & flags, 
 			const string & aname);
+    VertexPatchSchwarz (shared_ptr<BilinearForm> abfa, const Flags & aflags,
+                        const string aname = "mgprecond");
+
     ~VertexPatchSchwarz ();
 
     virtual void Update();
@@ -65,7 +68,20 @@ namespace ngcomp  {
     bfa = pde.GetBilinearForm (flags.GetStringFlag ("bilinearform", ""));
   }
     
-  
+  VertexPatchSchwarz::
+  VertexPatchSchwarz (shared_ptr<BilinearForm> abfa, 
+                      const Flags & aflags, const string aname)
+    : Preconditioner (abfa, aflags, aname)
+  {
+    addcoarse = flags.GetDefineFlag("addcoarse");
+
+    cout << endl << "Constructor of VertexPatchSchwarz" ;
+    if (addcoarse) cout << "with coarse solve" ;      
+	
+    bfa = abfa;
+  }
+
+
   VertexPatchSchwarz :: ~VertexPatchSchwarz ()  
   { 
     // noting to delete with shared ptr
