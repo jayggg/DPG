@@ -57,14 +57,14 @@ class NumProcFluxError : public NumProc  {
 
 public:
 
-  NumProcFluxError ( PDE & apde, const Flags & flags) : NumProc(apde) {
+  NumProcFluxError ( shared_ptr<PDE>  apde, const Flags & flags) : NumProc(apde) {
 
-    fes    = apde.GetFESpace(flags.GetStringFlag("fespace",NULL));
-    ext    = apde.GetFESpace(flags.GetStringFlag("extensionspace",NULL));
-    hdivip = apde.GetBilinearForm(flags.GetStringFlag("hdivproduct",NULL));
-    q      = apde.GetGridFunction(flags.GetStringFlag("discreteq",NULL));
-    Q      = apde.GetGridFunction(flags.GetStringFlag("exactq",NULL));
-    err    = apde.GetGridFunction(flags.GetStringFlag("errorsquareq",NULL));
+    fes    = GetPDE()->GetFESpace(flags.GetStringFlag("fespace",NULL));
+    ext    = GetPDE()->GetFESpace(flags.GetStringFlag("extensionspace",NULL));
+    hdivip = GetPDE()->GetBilinearForm(flags.GetStringFlag("hdivproduct",NULL));
+    q      = GetPDE()->GetGridFunction(flags.GetStringFlag("discreteq",NULL));
+    Q      = GetPDE()->GetGridFunction(flags.GetStringFlag("exactq",NULL));
+    err    = GetPDE()->GetGridFunction(flags.GetStringFlag("errorsquareq",NULL));
   }
   
   void Do(LocalHeap & lh) {    
@@ -139,7 +139,7 @@ public:
     // write file (don't know what the last argument of AddVariable 
     // does, but 6 seems to be the value everywhere! It seems to intializes 
     // an object  of class IM (important message).
-    pde.AddVariable (string("fluxerr.")+GetName()+".value", sqrt(sqer), 6);  
+    GetPDE()->AddVariable (string("fluxerr.")+GetName()+".value", sqrt(sqer), 6);  
 
   }
    

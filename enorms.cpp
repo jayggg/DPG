@@ -72,15 +72,15 @@ namespace dpg  {
 
   public:
     
-    NumProcEnorms(PDE & apde, const Flags & flags) : NumProc(apde) {
+    NumProcEnorms(shared_ptr<PDE>  apde, const Flags & flags) : NumProc(apde) {
 
       cout << "Constructor of NumProcEnorms" 
 	   << "with flags:" << endl << flags;
 
-      fes = apde.GetFESpace(flags.GetStringFlag("fespace",NULL));
-      bfa = apde.GetBilinearForm (flags.GetStringFlag("bilinearform",NULL));
-      sol = apde.GetGridFunction(flags.GetStringFlag("solution",NULL));
-      est = apde.GetGridFunction(flags.GetStringFlag("estimator",NULL));
+      fes = GetPDE()->GetFESpace(flags.GetStringFlag("fespace",NULL));
+      bfa = GetPDE()->GetBilinearForm (flags.GetStringFlag("bilinearform",NULL));
+      sol = GetPDE()->GetGridFunction(flags.GetStringFlag("solution",NULL));
+      est = GetPDE()->GetGridFunction(flags.GetStringFlag("estimator",NULL));
 
       Array<double> yintegrators (flags.GetNumListFlag("yintegrators"));
       for (int i=0; i<yintegrators.Size(); i++) {

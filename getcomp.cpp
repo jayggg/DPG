@@ -34,11 +34,11 @@ class NumProcGetComponent : public NumProc  {
 
 public:
   
-  NumProcGetComponent ( PDE & apde, const Flags & flags) : NumProc(apde) {
+  NumProcGetComponent(shared_ptr<PDE> apde, const Flags & flags):NumProc(apde) {
     
-    gf1 = pde.GetGridFunction(flags.GetStringFlag("compoundgf",NULL));
+    gf1 = GetPDE()->GetGridFunction(flags.GetStringFlag("compoundgf",NULL));
     ind = flags.GetNumFlag("comp",1) - 1 ;
-    gf2 = pde.GetGridFunction(flags.GetStringFlag("componentgf",NULL));
+    gf2 = GetPDE()->GetGridFunction(flags.GetStringFlag("componentgf",NULL));
     re = flags.GetDefineFlag("re");
     im = flags.GetDefineFlag("im");
   }
