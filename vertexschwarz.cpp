@@ -35,11 +35,15 @@ namespace ngcomp  {
     ~VertexPatchSchwarz ();
 
     virtual void Update();
+
+    virtual int VHeight() const { return jacobi->VHeight(); }
     
+    virtual int VWidth() const { return jacobi->VWidth(); }
+	
     virtual void Mult (const BaseVector & f, BaseVector & u) const  {
 
       // jacobi -> Mult (f, u);
-      
+
       u = 0.0;
       jacobi -> GSSmooth (u, f);
       jacobi -> GSSmoothBack (u, f);
