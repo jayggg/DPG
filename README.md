@@ -6,7 +6,7 @@ NGSolve [http://sourceforge.net/projects/ngsolve/].
 Its aim is to provide facilities to experiment with Discontinuous
 Petrov Galerkin (DPG) methods.
 
-CONTRIBUTORS: Jay Gopalakrishnan, Lukas Kogler, Joachim Schoberl.
+CONTRIBUTORS: Jay Gopalakrishnan, Lukas Kogler, Nicole Olivares, Joachim Schoberl.
 
 SEND comments or bug reports to  gjay@pdx.edu.
 
@@ -27,6 +27,8 @@ next adaptive iteration.
 4) scatteradaptive.pde - Adaptively compute a scattered wave
 
 5) planewave3d.pde - Compute a 3D wave using DPG method
+
+6) periodicmaxwell.pde - A 3D Maxwell problem with periodic bc in the x- and y-directions
 
 To use any of these pde files as input, first type "make" on a Mac or
 Linux terminal, then "netgen", and then load the pde file. 

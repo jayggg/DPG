@@ -1,5 +1,5 @@
 
-objects = dpgintegrators.o getcomp.o fluxerr.o enorms.o vertexschwarz.o l2trace.o
+objects = dpgintegrators.o getcomp.o fluxerr.o enorms.o vertexschwarz.o l2trace.o hcurlintegrators.o periodichcurl.o
 
 uname = $(shell uname -s)
 flagshared = 
@@ -17,7 +17,8 @@ endif
 #       ngscxx -DDEBUG -I. -c $? -o $@
 
 libDPG.so : $(objects)
-	ngscxx $(flagshared) $(objects) -lngsolve -lngfem -o $@
+	ngscxx -shared  $(objects) -lngsolve -lngcomp -lngfem -o $@
+# ngscxx -shared $(objects) -lngsolve -lngfem -o $@
 
 clean:
 	rm *.o libDPG.so
