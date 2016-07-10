@@ -1,0 +1,2 @@
+# mesh.levels fes.fs.ndof fes.fs1.ndof integrate.calcL2err.value integrate.calcH1err.value fluxerr.calc_fluxerror_fracnorm.value 
+1 313 81 1.57808e-14 1.41474e-13 5.67663e-12 
