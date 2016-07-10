@@ -5,7 +5,8 @@ This repository provide facilities to experiment with Discontinuous Petrov Galer
 
 CONTRIBUTORS: Jay Gopalakrishnan, Lukas Kogler, Nicole Olivares, Joachim Schoberl.
 
-SEND comments or bug reports to  gjay@pdx.edu.
+SEND comments or bug reports to  Jay Gopalakrishnan <gjay@pdx.edu>.
+
 
 ## Install
 
@@ -15,13 +16,10 @@ SEND comments or bug reports to  gjay@pdx.edu.
 - Navigate to the cloned folder `DPG` and type `make`. This should compile the provided sources on Linux and on Mac (with a working `make`) and create the shared library `libDPG.so`.
 
 
-## Examples using python interface 
-
 ## Examples using PDE file interface
 
-SUGGESTION: If you are new to DPG methods, or to this library, 
-you may want to start visiting the input pde files (each of which 
-is heavily commented) in this order:
+Please see comments in individual PDE files in folder `pde`.  Suggestions of pde-file examples to peruse:
+
 
 1) primallaplace.pde  -  Simplest DPG method for Laplace eq.
 
