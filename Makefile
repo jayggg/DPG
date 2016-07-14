@@ -8,7 +8,6 @@ objects = dpgintegrators.o getcomp.o fluxerr.o enorms.o vertexschwarz.o l2trace.
 
 libDPG.so : $(objects)
 	ngsld -shared $(objects) -lngsolve -lngfem -lngcomp -o $@
-	ln -s libDPG.so pde/libDPG.so
 
 clean:
 	rm *.o libDPG.so
