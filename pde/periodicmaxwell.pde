@@ -48,7 +48,7 @@
 #                                {z=0} boundary, bc=2   
 #
 
-shared = libDPG
+shared = "../libDPG"
 constant heapsize = 500000000
 
 geometry = periodiclayers.geo       
@@ -118,8 +118,9 @@ coefficient kbdry (0.0), (k1), (k2), (0.0)
 fespace fs1 -type=hcurlho           -order=6 -complex        # e, v
                                              -discontinuous
 fespace fs2 -type=hcurlho_periodic  -order=3 -complex        # E, F   
+            -xends=[0,1] -yends=[0,1]
 fespace fs3 -type=hcurlho_periodic  -order=4 -complex        # M, W
-                                             -orderinner=1
+            -xends=[0,1] -yends=[0,1] -orderinner=1
 
 fespace fs -type=compound -spaces=[fs1,fs2,fs3] -complex
 
@@ -149,12 +150,6 @@ numproc bvp np_solve -bilinearform=b -linearform=l
         -gridfunction=eEM 
         -solver=direct
 
-#preconditioner c  -type=local -bilinearform=b 
-
-#numproc bvp np_solve -bilinearform=b -linearform=l 
-#        -gridfunction=eEM  -preconditioner=c -maxsteps=2000
-#        -innerproduct=hermitian    
-
 # Compute error
 gridfunction E -fespace=fs2 -addcoef -novisual 
 numproc getcomp ng_get -comp=2 -compoundgf=eEM -componentgf=E
@@ -171,5 +166,3 @@ numproc setvalues np_set -gridfunction=E_exact -coefficient=E_ex
 numproc visualization npvis -scalarfunction=eEM.2:1 -subdivision=4 -nolineartexture 
 
 
-
-##
