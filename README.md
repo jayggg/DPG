@@ -1,7 +1,7 @@
 # DPG methods in NGSolve
 
-This repository provide facilities to experiment with Discontinuous Petrov Galerkin (DPG) methods, by making  a  shared library that can be added onto 
-[NGSolve](http://sourceforge.net/projects/ngsolve/).
+This repository provides facilities to experiment with Discontinuous Petrov Galerkin (DPG) methods. The C++ codes here can be compiled to make a  shared library that can be added onto the 
+[NGSolve](http://sourceforge.net/projects/ngsolve/) package. Python codes that interface with the C++ objects are also provided.
 
 CONTRIBUTORS: Jay Gopalakrishnan, Lukas Kogler, Nicole Olivares, Joachim Schoberl.
 
@@ -17,7 +17,7 @@ SEND comments or bug reports to  Jay Gopalakrishnan <gjay@pdx.edu>.
 
 ## Some examples using python interface
 
-Starting version 6.1, NGsolve provides an interface, called `NGSpy`, to many of its facilities using Python 3, including symbolic forms.  DPG methods can be implemented directly  using these new symbolic facilities, or by loading the the precompiled DPG library from python using CDLL. (The latter is at times faster.)  If you want to explore implementing DPG methods using NGSPy, start with these examples:
+Starting version 6.1, NGsolve provides a Python3 interface (called `NGSpy`) to many of its facilities, including symbolic forms.  DPG methods can be implemented directly  using these new symbolic facilities, or by loading the precompiled DPG library from python using CDLL. (The latter is at times faster.)  If you want to explore implementing DPG methods using NGSPy, start with these examples:
 
 - [laplaceadaptive.py](./python/laplaceadaptive.py): In a terminal where PYTHONPATH is set to find the NGsolve libs, navigate to `python` folder and type `netgen  laplaceadaptive.py` to see a demo of automatic adaptivity using DPG methods for the Laplace equation. This example uses pure NGSpy, and there is no need to compile or load `libDPG`.
   
@@ -46,9 +46,9 @@ next adaptive iteration.
 - [Hexahedral mesh elements](web/prismhex.md) 
 - [Periodic finite element spaces](web/periodic.md) 
 - [Periodic meshes](web/periodic.md) 
-- [Preconditioner: Schwarz on vertex patches](misc/vertexschwarz.cpp)
 - [Prismatic mesh elements](web/prismhex.md) 
 - [Quotient norm approximation by polynomial extension](misc/fluxerr.cpp)
+- [Schwarz preconditioner on vertex patches](misc/vertexschwarz.cpp)
 - [Traces of DG spaces](spaces/l2trace.cpp)
 - [Thin layers](web/prismhex.md) 
 

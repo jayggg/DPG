@@ -5,11 +5,11 @@ Netgen can be alerted to close surfaces which will automatically trigger prismat
 - [thincyl.py](../projects/nanogap/learn2mesh/thincyl.py).
 - [thinlayer.py](../projects/nanogap/learn2mesh/thinlayer.py).
 
-The first example  shows how thin annular gaps can be meshed by curved prisms.
+The first example  shows how thin annular rings can be meshed by curved prisms.
 
 ![Image of mesh](figs/mesh6cyl.png)
 
-The second example gives prisms, which can be seen after zooming into the thin layer in the middle:
+The second example meshes a flat thin layer using prisms, which can be seen after zooming into the thin layer in the middle of the meshed box.
 
 ![Image of mesh](figs/mesh5prism.png)
 
@@ -20,10 +20,10 @@ Sometimes we have a situation where two pairs of close surfaces intersect, such 
 
 ![Image of mesh](figs/mesh7cylayer.png)
 
-In such cases, Netgen will attempt hexahedral element generation. Here is an example: 
+In such cases, Netgen will attempt hexahedral element generation at the intersection, match it with prisms surrounding it, and transition to tetrahedral mesh using **pyramidal** elements.   Here is an example: 
 
 -  [thinlayercyl.py](../projects/nanogap/learn2mesh/thinlayercyl.py).
 
-The generated mesh, when zoomed in near the niddle thin layer shows a ring of hexahderal elements:
+The generated mesh, when zoomed in near the middle thin layer shows a ring of hexahderal elements:
 
 ![Image of mesh](figs/mesh8hexring.png)
