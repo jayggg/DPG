@@ -85,11 +85,11 @@ numproc getcomp get_u  -comp=1 -compoundgf=uqe -componentgf=u
 numproc getcomp get_q  -comp=2 -compoundgf=uqe -componentgf=q
 
 
-# Compute L2 and H1 errors in u:            Calculate || u - U ||.
-coefficient errl2 (sqrt((u-uex)*(u-uex))) # Here we need u to be 
-                                          # treatable as a coefficient.
+# Compute squares of L2 and H1 errors in u:    Calculate || u - U ||.
+coefficient errl2 (((u-uex)*(u-uex))) # Here we need u to be 
+                                      # treatable as a coefficient.
 numproc integrate  calcL2err -coefficient=errl2  
-coefficient errh1 ( sqrt ((grad_u-graduex)*(grad_u-graduex)) )  
+coefficient errh1 ( ((grad_u-graduex)*(grad_u-graduex)) )  
 numproc integrate  calcH1err -coefficient=errh1  
 
 # Compute approx H^(-1/2) norm of error in q:
