@@ -3,7 +3,7 @@
 This repository provides facilities to experiment with Discontinuous Petrov Galerkin (DPG) methods. The C++ codes here can be compiled to make a  shared library that can be added onto the 
 [NGSolve](http://sourceforge.net/projects/ngsolve/) package. Python codes that interface with the C++ objects are also provided.  Large parts of the code in this repository can be understood independently of the DPG method.
 
-CONTRIBUTORS: Jay Gopalakrishnan, Lukas Kogler, Nicole Olivares, Joachim Schoberl.
+CONTRIBUTORS: Dow Drake, Jay Gopalakrishnan, Lukas Kogler, Nicole Olivares, Joachim Schoberl.
 
 SEND comments or bug reports to  Jay Gopalakrishnan <gjay@pdx.edu>.
 
@@ -41,7 +41,7 @@ next adaptive iteration.
 ## Index 
 
 - Adaptivity: [Python example](./python/laplaceadaptive.py), [Pde file example](pde/laplaceadaptive.pde)
-- Finite Elements:  [Enriched quad element](spaces/l2quadplusfe.cpp), [Trace element of DG](spaces/l2trace.cpp)
+- Finite Elements:  [Enriched quadrilateral element](spaces/l2quadplusfe.cpp), [Trace element of DG](spaces/l2trace.cpp)
 - Finite Element Spaces: [Periodic spaces](web/periodic.md), [DG trace space](spaces/l2trace.cpp), [Enriched quad space](spaces/l2quadpluspace.cpp)
 - [Hexahedral mesh elements](web/prismhex.md) 
 - [Periodic finite element spaces](web/periodic.md) 
