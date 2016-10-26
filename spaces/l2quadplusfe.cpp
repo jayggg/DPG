@@ -12,7 +12,7 @@ namespace dpg {
   
 
   void L2EnrichedQuad::CalcShape (const IntegrationPoint & ip, 
-				  SliceVector<> shape) const {
+				  BareSliceVector<> shape) const {
     double x = ip(0), y = ip(1);
     l2quad.CalcShape(ip, shape);
     shape( (_k+1)*(_k+1) ) = T_CalcLastShape(x,y);

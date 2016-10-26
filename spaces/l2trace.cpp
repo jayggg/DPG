@@ -122,10 +122,10 @@ public:
 
 
   virtual void CalcShape (const IntegrationPoint & ip, 
-                          SliceVector<> shape) const ;
+                          BareSliceVector<> shape) const ;
 
   virtual void CalcDShape (const IntegrationPoint & ip, 
-                          SliceMatrix<> dshape) const  {
+			   SliceMatrix<> dshape) const  {
 
     throw Exception("CalcDShape not available for trace element");
     
@@ -231,7 +231,7 @@ TraceElement<DIM>::TraceElement(const FiniteElement & ave,
 
 template <int DIM> 
 void TraceElement<DIM>::CalcShape (const IntegrationPoint & ip, 
-				   SliceVector<> shape) const  {
+				   BareSliceVector<> shape) const  {
     IntegrationPoint facet_ip;
     
     // We set up things to use the vol_element's CalcShape().

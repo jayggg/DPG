@@ -33,7 +33,7 @@ namespace dpg {
     }
 
     virtual void CalcShape (const IntegrationPoint & ip, 
-                            SliceVector<> shape) const;  
+                            BareSliceVector<> shape) const;  
     virtual void CalcDShape (const IntegrationPoint & ip, 
                              SliceMatrix<> dshape) const;
     
