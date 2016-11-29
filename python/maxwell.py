@@ -2,7 +2,7 @@
 
 import sympy as sm
 from ngsolve import *
-import netgen
+from netgen.csg import unit_cube
 
 # Set a "manufactured" exact solution and RHS using sympy:
 
@@ -29,7 +29,7 @@ F = curlcurlEexact - k*k*Eexact
 
 # Compute numerical solution using DPG forms
 
-mesh = Mesh (netgen.csg.unit_cube.GenerateMesh(maxh=0.5))
+mesh = Mesh (unit_cube.GenerateMesh(maxh=0.5))
 
 p = 3;
 Xo= HCurl(mesh, order=p+1,dirichlet=[1,2,3,4,5,6],complex=True)
