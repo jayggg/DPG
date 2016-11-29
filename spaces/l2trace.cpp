@@ -154,7 +154,7 @@ public:
 
     static ConstantCoefficientFunction one(1);
 
-    boundary_integrator = // this integrator needed for visualization
+    integrator[BND] = // this integrator needed for visualization
       GetIntegrators().CreateBFI("robin", ma->GetDimension(), &one);
   }
 

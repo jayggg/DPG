@@ -107,8 +107,9 @@ namespace dpg  {
       estvec.FVDouble() = 0.0;
 
       for(int k=0; k<ma->GetNE(); k++)  {
-	
-	const FiniteElement & fel = fes->GetFE(k,lh);
+
+	ElementId ei (VOL, k);
+	const FiniteElement & fel = fes->GetFE(ei,lh);
 	const CompoundFiniteElement & cfel = 
 	  dynamic_cast<const CompoundFiniteElement&>(fel);
 
@@ -121,8 +122,9 @@ namespace dpg  {
 	for (int ii=0; ii<bfa->NumIntegrators(); ii++) {
 	  
 	  if (Yintegrators.Contains(ii)) {
+	    
 	    bfa->GetIntegrator(ii)->
-	      CalcElementMatrix(cfel,ma->GetTrafo(k,0,lh),xelmat,lh);
+	      CalcElementMatrix(cfel,ma->GetTrafo(ei,lh),xelmat,lh);
 	    elmat += xelmat;
 	  }
 	} 
@@ -137,7 +139,7 @@ namespace dpg  {
 	  Aii = elmat.Rows(ri).Cols(ri);
 
 	  Array<int> Gdofnrs, Gedofnrs;
-	  fes->GetDofNrs(k,Gdofnrs);	
+	  fes->GetDofNrs(ei,Gdofnrs);	
 	  Gedofnrs = Gdofnrs[ri];
 	  Vector<SCAL> e(ni);
 	  e = solvec.FV<SCAL>()(Gedofnrs);

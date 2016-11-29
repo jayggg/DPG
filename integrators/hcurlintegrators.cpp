@@ -36,7 +36,8 @@ namespace dpg {
     virtual string Name () const { return "CurlCurlPG"; }
 
     virtual bool BoundaryForm () const { return false; }
-
+    virtual VorB VB() const { return VOL; }
+    
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
 			    FlatMatrix<double> elmat,
@@ -139,7 +140,8 @@ namespace dpg {
     virtual string Name () const { return "TraceTraceXn"; }
 
     virtual bool BoundaryForm () const { return false; }
-
+    virtual VorB VB() const { return VOL; }
+    
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
 			    FlatMatrix<double> elmat,
@@ -270,7 +272,8 @@ namespace dpg {
     virtual string Name () const { return "EyeEyeEdge"; }
 
     virtual bool BoundaryForm () const { return false; }
-
+    virtual VorB VB() const { return VOL; }
+    
     void CalcElementMatrix (const FiniteElement & base_fel,
 			    const ElementTransformation & eltrans, 
 			    FlatMatrix<double> elmat,
@@ -364,7 +367,8 @@ public:
   virtual int DimElement () const { return D-1; }
   virtual int DimSpace () const { return D; }		
   virtual bool BoundaryForm () const { return 1; }
-
+  virtual VorB VB() const { return BND;} 
+  
   void CalcElementMatrix (const FiniteElement & base_fel,
 			  const ElementTransformation & eltrans, 
 			  FlatMatrix<double> elmat,

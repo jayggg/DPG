@@ -9,13 +9,13 @@ namespace dpg {
     : FESpace (ama, flags)   {
     
     _k = int(flags.GetNumFlag ("order", 2));
-    evaluator =
+    evaluator[VOL] =
       make_shared<T_DifferentialOperator<DiffOpId<2>>>();
-    flux_evaluator =
+    flux_evaluator[VOL] =
       make_shared<T_DifferentialOperator<DiffOpGradient<2>>>();
-    boundary_evaluator =
+    evaluator[BND] =
       make_shared<T_DifferentialOperator<DiffOpIdBoundary<2>>>();
-    integrator = GetIntegrators() .
+    integrator[VOL] = GetIntegrators() .
       CreateBFI("mass", ma->GetDimension(), 
 		make_shared<ConstantCoefficientFunction>(1));
   }
@@ -36,12 +36,16 @@ namespace dpg {
     ctofdof = LOCAL_DOF;
   }
 
-  void L2EnrichedQuadFESpace::GetDofNrs (int elnr, Array<int> & dnums) const {
+  void L2EnrichedQuadFESpace::GetDofNrs (ElementId ei, Array<int> & dnums) const {
 
+    int elnr = ei.Nr();
     dnums.SetSize(0);
-    int first = first_cell_dof[elnr];
-    int next  = first_cell_dof[elnr+1];
-    for (int j = first; j < next; j++)  dnums.Append (j);      
+
+    if ( ei.VB() == VOL ) {
+      int first = first_cell_dof[elnr];
+      int next  = first_cell_dof[elnr+1];
+      for (int j = first; j < next; j++)  dnums.Append (j);
+    }
   }
   
   void L2EnrichedQuadFESpace::GetSDofNrs (int elnr, Array<int> & dnums) const 

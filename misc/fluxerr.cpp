@@ -86,13 +86,15 @@ public:
     for(int k=0; k<ma->GetNE(); k++)  {
       
       ElementId ei (VOL, k);
-      double elndof = ext->GetFE(k,lh).GetNDof(); 
+
+      size_t elndof = ext->GetFE(ei,lh).GetNDof();
+      
       Vector<SCAL> diff(elndof);           
       // dof nrs: global, global inner, local inner, local Schur
       Array<int>  Gn,     Ginn,         Linn,        Lsn;
 
       // compute the difference between Q and q
-      ext->GetDofNrs(k,Gn);        // Global# of all dofs on element k
+      ext->GetDofNrs(ei,Gn);        // Global# of all dofs on element k
       diff = SCAL(0.0);
       for(int j=0; j<elndof; j++)
 	diff[j] = vecQ.FV<SCAL>()[Gn[j]] - vecq.FV<SCAL>()[Gn[j]];

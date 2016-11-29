@@ -61,8 +61,7 @@ public:
 
   virtual void Update (LocalHeap & lh);
 
-  virtual void GetDofNrs (int elnr, Array<int> & dnums) const;
-  virtual void GetSDofNrs (int selnr, Array<int> & dnums) const;
+  virtual void GetDofNrs (ElementId ei, Array<int> & dnums) const;
 
   virtual FiniteElement & GetFE (int enr, LocalHeap & lh) const;
   virtual FiniteElement & GetSFE (int enr, LocalHeap & lh) const;
@@ -416,11 +415,12 @@ void PeriodicHCurlSpace :: Update (LocalHeap & lh) {
 
 
 
-void PeriodicHCurlSpace::GetDofNrs (int elnr, Array<int> & dnums) const {
+
+void PeriodicHCurlSpace::GetDofNrs (ElementId ei,  Array<int> & dnums) const {
 
   // If dofmap is not yet set, then only do this:
 
-  HCurlHighOrderFESpace::GetDofNrs(elnr,dnums);
+  HCurlHighOrderFESpace::GetDofNrs(ei,dnums);
 
   // If dofmap is set, then make the periodic adjustment:
 
@@ -429,101 +429,97 @@ void PeriodicHCurlSpace::GetDofNrs (int elnr, Array<int> & dnums) const {
       dnums[i] = dofmapy[dofmapx[dnums[i]]];
 }
 
-void PeriodicHCurlSpace::GetSDofNrs (int selnr, Array<int> & dnums) const {
-
-  HCurlHighOrderFESpace::GetSDofNrs(selnr,dnums);
-
-  if (dofmapx.Size()) //
-    for(int i=0; i<dnums.Size(); i++)
-      dnums[i] = dofmapy[dofmapx[dnums[i]]];
-}
-
 
 FiniteElement & PeriodicHCurlSpace::GetFE (int enr, LocalHeap & lh) const
 {
-  GetFE (ElementId(VOL, enr), lh);
+  return GetFE (ElementId(VOL, enr), lh);
 }
 
 FiniteElement & PeriodicHCurlSpace::GetSFE (int enr, LocalHeap & lh) const
 {
-  GetFE (ElementId(BND, enr), lh);
+  return GetFE (ElementId(BND, enr), lh);
 }
 
 FiniteElement & PeriodicHCurlSpace::GetFE (ElementId ei, Allocator & alloc) const
 {
   Ngs_Element ngel = ma->GetElement (ei);
-  switch (ngel.GetType())
-  {
+  switch (ngel.GetType())  {
+
   case ET_TRIG:
-  {
-    auto fe = new(alloc) HCurlHighOrderFE<ET_TRIG> (order);
-    fe->SetVertexNumbers (vertmapy[vertmapx[ngel.Vertices()]]);
-    if(ma->GetDimension()==2){
-      fe->SetOrderCell (order_inner[ei.Nr()]);
+    {
+      auto fe = new(alloc) HCurlHighOrderFE<ET_TRIG> (order);
+      fe->SetVertexNumbers (vertmapy[vertmapx[ngel.Vertices()]]);
+      if(ma->GetDimension()==2){
+	fe->SetOrderCell (order_inner[ei.Nr()]);
 
-      INT<2> p(order_inner[ei.Nr()][0], order_inner[ei.Nr()][1]);
-      FlatArray<INT<2> > of(1, &p);
-      fe -> SetOrderFace (of);
+	INT<2> p(order_inner[ei.Nr()][0], order_inner[ei.Nr()][1]);
+	FlatArray<INT<2> > of(1, &p);
+	fe -> SetOrderFace (of);
       
-      fe->ComputeNDof();
+	fe->ComputeNDof();
+      }
+      return *fe;
     }
-    return *fe;
-  }
   case ET_TET:
-  {
-    auto fe = new(alloc) HCurlHighOrderFE<ET_TET> (order);
-    fe->SetVertexNumbers (vertmapy[vertmapx[ngel.Vertices()]]);
-    fe->SetOrderCell (order_inner[ei.Nr()]);
-    fe->ComputeNDof();
-    return *fe;
-  }
-  case ET_HEX:
-  {
-    auto fe = new(alloc) HCurlHighOrderFE<ET_HEX> (order);
-    fe->SetVertexNumbers (vertmapy[vertmapx[ngel.Vertices()]]);
-    fe->SetOrderCell (order_inner[ei.Nr()]);
-    fe->ComputeNDof();
-    return *fe;
-  }
-  case ET_PRISM:
-  {
-    auto fe = new(alloc) HCurlHighOrderFE<ET_PRISM> (order);
-    fe->SetVertexNumbers (vertmapy[vertmapx[ngel.Vertices()]]);
-    fe->SetOrderCell (order_inner[ei.Nr()]);
-    fe->ComputeNDof();
-    return *fe;
-  }
-  case ET_PYRAMID:
-  {
-    auto fe = new(alloc) HCurlHighOrderFE<ET_PYRAMID> (order);
-    fe->SetVertexNumbers (vertmapy[vertmapx[ngel.Vertices()]]);
-    fe->SetOrderCell (order_inner[ei.Nr()]);
-    fe->ComputeNDof();
-    return *fe;
-  }
-  case ET_SEGM:
-  {
-    auto fe = new(alloc) HCurlHighOrderFE<ET_SEGM> (order);
-    fe->SetVertexNumbers (vertmapy[vertmapx[ngel.Vertices()]]);
-    // fe->SetOrderCell (order_inner[ei.Nr()]);
-    // fe->ComputeNDof();
-    return *fe;
-  }
-  case ET_QUAD:
-  {
-    auto fe = new(alloc) HCurlHighOrderFE<ET_QUAD> (order);
-    fe->SetVertexNumbers (vertmapy[vertmapx[ngel.Vertices()]]);
-    if(ma->GetDimension()==2){
+    {
+      auto fe = new(alloc) HCurlHighOrderFE<ET_TET> (order);
+      fe->SetVertexNumbers (vertmapy[vertmapx[ngel.Vertices()]]);
       fe->SetOrderCell (order_inner[ei.Nr()]);
-
-      INT<2> p(order_inner[ei.Nr()][0], order_inner[ei.Nr()][1]);
-      FlatArray<INT<2> > of(1, &p);
-      fe -> SetOrderFace (of);
-
       fe->ComputeNDof();
+      return *fe;
     }
-    return *fe;
-  }
+  case ET_HEX:
+    {
+      auto fe = new(alloc) HCurlHighOrderFE<ET_HEX> (order);
+      fe->SetVertexNumbers (vertmapy[vertmapx[ngel.Vertices()]]);
+      fe->SetOrderCell (order_inner[ei.Nr()]);
+      fe->ComputeNDof();
+      return *fe;
+    }
+  case ET_PRISM:
+    {
+      auto fe = new(alloc) HCurlHighOrderFE<ET_PRISM> (order);
+      fe->SetVertexNumbers (vertmapy[vertmapx[ngel.Vertices()]]);
+      fe->SetOrderCell (order_inner[ei.Nr()]);
+      fe->ComputeNDof();
+      return *fe;
+    }
+  case ET_PYRAMID:
+    {
+      auto fe = new(alloc) HCurlHighOrderFE<ET_PYRAMID> (order);
+      fe->SetVertexNumbers (vertmapy[vertmapx[ngel.Vertices()]]);
+      fe->SetOrderCell (order_inner[ei.Nr()]);
+      fe->ComputeNDof();
+      return *fe;
+    }
+  case ET_SEGM:
+    {
+      auto fe = new(alloc) HCurlHighOrderFE<ET_SEGM> (order);
+      fe->SetVertexNumbers (vertmapy[vertmapx[ngel.Vertices()]]);
+      // fe->SetOrderCell (order_inner[ei.Nr()]);
+      // fe->ComputeNDof();
+      return *fe;
+    }
+  case ET_QUAD:
+    {
+      auto fe = new(alloc) HCurlHighOrderFE<ET_QUAD> (order);
+      fe->SetVertexNumbers (vertmapy[vertmapx[ngel.Vertices()]]);
+      if(ma->GetDimension()==2){
+	fe->SetOrderCell (order_inner[ei.Nr()]);
+
+	INT<2> p(order_inner[ei.Nr()][0], order_inner[ei.Nr()][1]);
+	FlatArray<INT<2> > of(1, &p);
+	fe -> SetOrderFace (of);
+
+	fe->ComputeNDof();
+      }
+      return *fe;
+    }
+  case ET_POINT:
+    {
+      throw Exception("Point H(curl) finite element??? ");
+    }
+
   }
   throw Exception("GetFE: undefined element");
 }

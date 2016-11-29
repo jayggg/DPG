@@ -29,9 +29,9 @@ namespace dpg {
     virtual string GetClassName () const { return "L2EnrichedQuadFESpace"; }
 
     virtual void Update(LocalHeap & lh);
-    virtual int GetNDof () const { return ndof; }
+    virtual size_t GetNDof () const { return ndof; }
 
-    virtual void GetDofNrs (int elnr, Array<int> & dnums) const;
+    virtual void GetDofNrs (ElementId ei,  Array<int> & dnums) const;
     virtual void GetSDofNrs (int selnr, Array<int> & dnums) const;
 
     virtual const FiniteElement & GetFE (int elnr, LocalHeap & lh) const;
