@@ -100,19 +100,23 @@ namespace ngcomp  {
 
     const BaseSparseMatrix & mat 
       = dynamic_cast<const BaseSparseMatrix&> (bfa->GetMatrix());
-    const BitArray * freedofs = bfa->GetFESpace()->GetFreeDofs();
+    
+    shared_ptr<BitArray> freedofs = bfa->GetFESpace()->GetFreeDofs();
+
     shared_ptr<FESpace> fes = bfa -> GetFESpace();
     
 
     BitArray used (fes->GetNDof());
     used.Clear();
-    for (int i = 0; i < ma->GetNE(); i++)
-      {
-        Array<int> dofs;
-        fes->GetDofNrs (i, dofs);
-        for (int j = 0; j < dofs.Size(); j++)
-          used.Set (dofs[j]);
-      }
+    
+    for (int i = 0; i < ma->GetNE(); i++) {
+
+      ElementId ei (VOL, i);
+      Array<int> dofs;
+      fes->GetDofNrs (ei, dofs);
+      for (int j = 0; j < dofs.Size(); j++)
+	used.Set (dofs[j]);
+    }
     for (int i = 0; i < fes->GetNDof(); i++)
       if (freedofs->Test(i) && !used.Test(i))
         cerr << "freedof, but never used: " << i << endl;
@@ -170,7 +174,7 @@ namespace ngcomp  {
 	eliminated internal dofs.
      */
 
-    FilteredTableCreator creator(freedofs);
+    FilteredTableCreator creator(freedofs.get());
 
     while (!creator.Done())  {
       
@@ -217,11 +221,11 @@ namespace ngcomp  {
     
     //cout << "Blocks: "<< endl << *creator.GetTable() << endl;
     
-    jacobi = mat.CreateBlockJacobiPrecond (*creator.GetTable());
+    jacobi = mat.CreateBlockJacobiPrecond (shared_ptr<Table<int>>(creator.GetTable()));
 
     if (addcoarse) {
       int ndof = fes->GetNDof();
-      BitArray * coarsedofs = new BitArray(ndof);
+      auto coarsedofs = make_shared<BitArray>(ndof);
       coarsedofs->Clear();
 
       for (int i=0; i<ndof; i++) 
