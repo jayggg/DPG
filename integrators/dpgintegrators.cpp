@@ -448,7 +448,8 @@ namespace dpg {
     const MeshAccess & ma = *(const MeshAccess*)eltrans.GetMesh();
 
     Array<int> fnums, sels;
-    ma.GetElFacets (eltrans.GetElementNr(), fnums);
+    //dd: ma.GetElFacets (eltrans.GetElementNr(), fnums);
+    fnums = ma.GetElFacets (eltrans.GetElementId());
       
     for (int k = 0; k < nfacet; k++)    {
 
@@ -540,7 +541,8 @@ namespace dpg {
     const MeshAccess & ma = *(const MeshAccess*)eltrans.GetMesh();
 
     Array<int> fnums, sels;
-    ma.GetElFacets (eltrans.GetElementNr(), fnums);
+    //ma.GetElFacets (eltrans.GetElementNr(), fnums);
+    fnums = ma.GetElFacets (eltrans.GetElementId());
 
     for (int k = 0; k < nfacet; k++)    {
 

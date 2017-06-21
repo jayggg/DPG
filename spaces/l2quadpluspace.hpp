@@ -34,8 +34,9 @@ namespace dpg {
     virtual void GetDofNrs (ElementId ei,  Array<int> & dnums) const;
     virtual void GetSDofNrs (int selnr, Array<int> & dnums) const;
 
-    virtual const FiniteElement & GetFE (int elnr, LocalHeap & lh) const;
-    virtual const FiniteElement & GetSFE (int selnr, LocalHeap & lh) const;
+    //virtual const FiniteElement & GetFE (int elnr, LocalHeap & lh) const;
+    //virtual const FiniteElement & GetSFE (int selnr, LocalHeap & lh) const;
+    virtual const FiniteElement & GetFE (ElementId ei, LocalHeap & lh) const;
   };
 
 

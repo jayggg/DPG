@@ -53,10 +53,12 @@ namespace dpg {
 
 
   const FiniteElement & 
-  L2EnrichedQuadFESpace::GetFE (int elnr, LocalHeap & lh) const  {
+  //dd: L2EnrichedQuadFESpace::GetFE (int elnr, LocalHeap & lh) const  {
+  L2EnrichedQuadFESpace::GetFE (ElementId ei, LocalHeap & lh) const  {
 
     L2EnrichedQuad * quad = new (lh) L2EnrichedQuad(_k);
-    Ngs_Element ngel = ma->GetElement (elnr);
+    //dd: Ngs_Element ngel = ma->GetElement (elnr);
+    Ngs_Element ngel = ma->GetElement (ei);
 
     for (int i = 0; i < 4; i++)
       quad->SetVertexNumber (i, ngel.vertices[i]);
@@ -64,11 +66,13 @@ namespace dpg {
     return *quad;
   }
 
+  /* dd
   const FiniteElement &
   L2EnrichedQuadFESpace::GetSFE(int selnr, LocalHeap & lh) const {
 
     throw Exception("Called GetSFE! Not implemented yet!");
   }
+  */
 
   
   static RegisterFESpace<L2EnrichedQuadFESpace> initifes ("l2quadplus");

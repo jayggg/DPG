@@ -63,8 +63,8 @@ public:
 
   virtual void GetDofNrs (ElementId ei, Array<int> & dnums) const;
 
-  virtual FiniteElement & GetFE (int enr, LocalHeap & lh) const;
-  virtual FiniteElement & GetSFE (int enr, LocalHeap & lh) const;
+  //dd: virtual FiniteElement & GetFE (int enr, LocalHeap & lh) const;
+  //dd: virtual FiniteElement & GetSFE (int enr, LocalHeap & lh) const;
   virtual FiniteElement & GetFE (ElementId ei, Allocator & alloc) const;
 };
 
@@ -429,7 +429,7 @@ void PeriodicHCurlSpace::GetDofNrs (ElementId ei,  Array<int> & dnums) const {
       dnums[i] = dofmapy[dofmapx[dnums[i]]];
 }
 
-
+/* dd
 FiniteElement & PeriodicHCurlSpace::GetFE (int enr, LocalHeap & lh) const
 {
   return GetFE (ElementId(VOL, enr), lh);
@@ -439,6 +439,7 @@ FiniteElement & PeriodicHCurlSpace::GetSFE (int enr, LocalHeap & lh) const
 {
   return GetFE (ElementId(BND, enr), lh);
 }
+*/
 
 FiniteElement & PeriodicHCurlSpace::GetFE (ElementId ei, Allocator & alloc) const
 {

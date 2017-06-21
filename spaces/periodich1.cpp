@@ -37,8 +37,8 @@ public:
   virtual void GetDofNrs (int elnr, Array<int> & dnums) const;
   virtual void GetSDofNrs (int elnr, Array<int> & dnums) const;
 
-  virtual FiniteElement & GetFE (int enr, LocalHeap & lh) const; 
-  virtual FiniteElement & GetSFE (int enr, LocalHeap & lh) const;
+  //dd: virtual FiniteElement & GetFE (int enr, LocalHeap & lh) const; 
+  //dd: virtual FiniteElement & GetSFE (int enr, LocalHeap & lh) const;
   virtual FiniteElement & GetFE (ElementId ei, Allocator & alloc) const;
 };
 
@@ -365,7 +365,8 @@ void PeriodicH1Space :: GetDofNrs (int elnr, Array<int> & dnums) const
 
 void PeriodicH1Space :: GetSDofNrs (int elnr, Array<int> & dnums) const
 {
-  H1HighOrderFESpace::GetSDofNrs (elnr, dnums);
+  //H1HighOrderFESpace::GetSDofNrs (elnr, dnums);
+  H1HighOrderFESpace::GetDofNrs (ngfem::ElementId(BND,elnr), dnums);
 
   if (dofmapx.Size()) //
     for(int i=0; i<dnums.Size(); i++)
@@ -373,7 +374,7 @@ void PeriodicH1Space :: GetSDofNrs (int elnr, Array<int> & dnums) const
 }
 
 
-
+/* dd:
 FiniteElement & PeriodicH1Space :: GetFE (int enr, LocalHeap & lh) const
 {
   return GetFE (ElementId(VOL, enr), lh);
@@ -383,6 +384,7 @@ FiniteElement & PeriodicH1Space :: GetSFE (int enr, LocalHeap & lh) const
 {
   return GetFE (ElementId(BND, enr), lh);
 }
+*/
  
 FiniteElement &
 PeriodicH1Space::GetFE (ElementId ei, Allocator & alloc) const {
