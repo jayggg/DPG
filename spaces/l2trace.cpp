@@ -258,36 +258,26 @@ void TraceElement<DIM>::CalcShape (const IntegrationPoint & ip,
 // Member function definitions of L^2 high order finite element 
 // space with traces on the domain boundary:
 
-//const FiniteElement &  L2HighOrderFESpaceTrace::
-//GetSFE (int selnr, LocalHeap & lh) const {
 const FiniteElement &  L2HighOrderFESpaceTrace::
 GetSFE (ElementId sei, LocalHeap & lh) const {
 
 	ArrayMem<int,10> fnums, elnums, vnums, svnums;
-	//ELEMENT_TYPE et = ma->GetSElType (selnr);
 	ELEMENT_TYPE et = ma->GetElType (sei);
 
-	//ma->GetSElFacets(selnr, fnums);  /* fnums = facet numbers of 
-    //			     surface elt number selnr */
 	fnums = ma->GetElFacets(sei);  /* fnums = facet numbers of 
 				     surface elt number selnr */
 	int fac = fnums[0];
 	ma->GetFacetElements(fac,elnums);/* elnums = elt numbers of the elt
 				     sharing facet number fac */
 	int el = elnums[0];
-	//ma->GetElFacets(el,fnums);       /* fnums = facet numbers of 
-	//			     elt number el */
 	fnums = ma->GetElFacets(ngfem::ElementId(VOL,el));  /* fnums = facet numbers of 
 				     elt number el */
-	//const FiniteElement & fel = GetFE (el, lh);
 	const FiniteElement & fel = GetFE (ngfem::ElementId(VOL,el), lh);
 	int facnr = 0;                  /* facnr = local facet number of
 				     facet numbered fac globally */
 	for (int k=0; k<fnums.Size(); k++)
 	if(fac==fnums[k]) facnr = k;
 
-	//ma->GetElVertices (el, vnums);     
-	//ma->GetSElVertices (selnr, svnums);     
 	vnums = ma->GetElVertices (ngfem::ElementId(VOL,el));     
 	svnums = ma->GetElVertices (sei);     
 
@@ -304,7 +294,6 @@ void  L2HighOrderFESpaceTrace::
 GetSDofNrs(int selnr, Array<int> & dnums) const {
 
     Array<int> fnums, elnums;
-    //ma->GetSElFacets(selnr, fnums);
     fnums = ma->GetElFacets(ngfem::ElementId(BND, selnr));
     int fac = fnums[0];
     ma->GetFacetElements(fac,elnums);
