@@ -54,7 +54,7 @@ namespace dpg {
 
   const FiniteElement & 
   //dd: L2EnrichedQuadFESpace::GetFE (int elnr, LocalHeap & lh) const  {
-  L2EnrichedQuadFESpace::GetFE (ElementId ei, LocalHeap & lh) const  {
+  L2EnrichedQuadFESpace::GetFE (ElementId ei, Allocator & lh) const  {
 
     L2EnrichedQuad * quad = new (lh) L2EnrichedQuad(_k);
     //dd: Ngs_Element ngel = ma->GetElement (elnr);
@@ -65,6 +65,7 @@ namespace dpg {
     
     return *quad;
   }
+
 
   /* dd
   const FiniteElement &

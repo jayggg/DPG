@@ -36,9 +36,10 @@ namespace dpg {
 
     //virtual const FiniteElement & GetFE (int elnr, LocalHeap & lh) const;
     //virtual const FiniteElement & GetSFE (int selnr, LocalHeap & lh) const;
-    virtual const FiniteElement & GetFE (ElementId ei, LocalHeap & lh) const;
+    //virtual const FiniteElement & GetFE (ElementId ei, LocalHeap & lh) const;
+    virtual const FiniteElement & GetFE (ElementId ei, Allocator & lh) const;
+  
   };
-
 
 }
 
