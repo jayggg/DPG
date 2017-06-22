@@ -1,10 +1,8 @@
 
 VPATH = ./misc:./spaces:./integrators
 objects = dpgintegrators.o getcomp.o fluxerr.o enorms.o  l2trace.o hcurlintegrators.o periodichcurl.o periodich1.o  l2quadpluspace.o l2quadplusfe.o vertexschwarz.o
-#objects = dpgintegrators.o getcomp.o fluxerr.o enorms.o  l2trace.o hcurlintegrators.o periodichcurl.o periodich1.o  vertexschwarz.o
 
 headers = dpgintegrators.hpp hcurlintegrators.cpp l2quadpluspace.hpp l2quadplusfe.hpp
-#headers = dpgintegrators.hpp hcurlintegrators.cpp 
 
 %.o : %.cpp  $(headers)
 	ngscxx -I. -c $< -o $@
