@@ -26,19 +26,21 @@ namespace dpg {
 
     virtual ~L2EnrichedQuadFESpace () {;}
 
-    virtual string GetClassName () const { return "L2EnrichedQuadFESpace"; }
+    virtual string GetClassName () const override 
+    { 
+        return "L2EnrichedQuadFESpace"; 
+    }
 
-    virtual void Update(LocalHeap & lh);
-    virtual size_t GetNDof () const { return ndof; }
+    virtual void Update(LocalHeap & lh) override;
+    virtual size_t GetNDof () const override { return ndof; }
 
-    virtual void GetDofNrs (ElementId ei,  Array<int> & dnums) const;
-    virtual void GetSDofNrs (int selnr, Array<int> & dnums) const;
+    virtual void GetDofNrs (ElementId ei, Array<int> & dnums) const override;
+    //virtual void GetSDofNrs (int selnr, Array<int> & dnums) const;
 
     //virtual const FiniteElement & GetFE (int elnr, LocalHeap & lh) const;
     //virtual const FiniteElement & GetSFE (int selnr, LocalHeap & lh) const;
     //virtual const FiniteElement & GetFE (ElementId ei, LocalHeap & lh) const;
-    virtual const FiniteElement & GetFE (ElementId ei, Allocator & lh) const;
-  
+    virtual FiniteElement & GetFE (ElementId ei, Allocator & lh) const override;
   };
 
 }

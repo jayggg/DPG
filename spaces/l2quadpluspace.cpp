@@ -48,12 +48,13 @@ namespace dpg {
     }
   }
   
-  void L2EnrichedQuadFESpace::GetSDofNrs (int elnr, Array<int> & dnums) const 
-  { }
+//  void L2EnrichedQuadFESpace::GetSDofNrs (int elnr, Array<int> & dnums) const 
+//  { }
 
 
-  const FiniteElement & 
-  //dd: L2EnrichedQuadFESpace::GetFE (int elnr, LocalHeap & lh) const  {
+  //const FiniteElement & 
+  //L2EnrichedQuadFESpace::GetFE (int elnr, LocalHeap & lh) const  {
+  FiniteElement & 
   L2EnrichedQuadFESpace::GetFE (ElementId ei, Allocator & lh) const  {
 
     L2EnrichedQuad * quad = new (lh) L2EnrichedQuad(_k);
@@ -66,8 +67,7 @@ namespace dpg {
     return *quad;
   }
 
-
-  /* dd
+  /* 
   const FiniteElement &
   L2EnrichedQuadFESpace::GetSFE(int selnr, LocalHeap & lh) const {
 
