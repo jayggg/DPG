@@ -65,7 +65,8 @@ EMe = GridFunction(XY)
 # Solve the linear system
 
 cdirect = Preconditioner(a, type="direct")
-a.Assemble(heapsize=int(1e8))
+SetHeapSize(int(1e8))
+a.Assemble()
 f.Assemble()
 bvp = BVP(bf=a, lf=f, gf=EMe, pre=cdirect).Do()
 
