@@ -270,15 +270,16 @@ GetSFE (ElementId sei, LocalHeap & lh) const {
 	ma->GetFacetElements(fac,elnums);/* elnums = elt numbers of the elt
 				     sharing facet number fac */
 	int el = elnums[0];
-	fnums = ma->GetElFacets(ngfem::ElementId(VOL,el));  /* fnums = facet numbers of 
+    auto ei = ngfem::ElementId(VOL, el);
+	fnums = ma->GetElFacets(ei);  /* fnums = facet numbers of 
 				     elt number el */
-	const FiniteElement & fel = GetFE (ngfem::ElementId(VOL,el), lh);
+	const FiniteElement & fel = GetFE (ei, lh);
 	int facnr = 0;                  /* facnr = local facet number of
 				     facet numbered fac globally */
 	for (int k=0; k<fnums.Size(); k++)
 	if(fac==fnums[k]) facnr = k;
 
-	vnums = ma->GetElVertices (ngfem::ElementId(VOL,el));     
+	vnums = ma->GetElVertices (ei);     
 	svnums = ma->GetElVertices (sei);     
 
 	if (ma->GetDimension() == 2)
