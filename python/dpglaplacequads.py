@@ -50,7 +50,7 @@ def solvedpg(p, h,
 
 def test_solvedpg():    
     success = abs(solvedpg(p=2,h=0.125)) < 1.e-14
-    assert(success, "Biquadratic not exactly solved with p=2")
+    assert success, "Biquadratic not exactly solved with p=2"
 
     
 def hconvergencetable(errors,maxr):
