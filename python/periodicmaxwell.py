@@ -146,7 +146,7 @@ b.Assemble()
 
 eEM = GridFunction(S)
 c = Preconditioner(a, type="direct")
-SetHeapsize(int(5e8))
+SetHeapSize(int(5e8))
 a.Assemble()
 
 bvp = BVP(bf=a, lf=b, gf=eEM, pre=c).Do()
