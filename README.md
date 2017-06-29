@@ -11,7 +11,7 @@ SEND comments or bug reports to  Jay Gopalakrishnan <gjay@pdx.edu>.
 ## Install
 
 
-- Do make sure you have the dependencies installed before proceeding: A working installation of NGSolve and Netgen is required. Please  follow the [instructions online](https://gitlab.asc.tuwien.ac.at/jschoeberl/ngsolve-docu/wikis/home) for installing the development version of these packages. (Please ensure that the compile script `ngscxx`  is in your path after a successful install of NGSolve.) 
+- Do make sure you have the dependencies installed before proceeding: A working installation of NGSolve and Netgen is required. Please  follow the [instructions online](https://ngsolve.org/docu/latest/) for installing the development version of these packages. (Please ensure that the compile script `ngscxx`  is in your path after a successful install of NGSolve.) 
 - Clone this repository: `git clone https://github.com/jayggg/DPG`
 - Navigate to the cloned folder `DPG` and type `make`. This should compile the C++ files on Linux or  Mac systems (where GNU or other `make` is already installed) and should create the shared library called `libDPG`.
 
