@@ -221,7 +221,8 @@ namespace ngcomp  {
     
     //cout << "Blocks: "<< endl << *creator.GetTable() << endl;
     
-    jacobi = mat.CreateBlockJacobiPrecond (shared_ptr<Table<int>>(creator.GetTable()));
+    //jacobi = mat.CreateBlockJacobiPrecond (shared_ptr<Table<int>>(creator.GetTable()));
+    jacobi = mat.CreateBlockJacobiPrecond (make_shared<Table<int>> (creator.MoveTable()));
 
     if (addcoarse) {
       int ndof = fes->GetNDof();
