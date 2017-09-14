@@ -17,6 +17,7 @@ from netgen.geom2d import unit_square
 from netgen.csg import unit_cube
 import ngsolve as ngs
 from math import log, pi
+from generate_cubic_mesh import GenerateCubeMesh
 
 
 def vec(listfun):
@@ -62,10 +63,8 @@ def makeforms(mesh, p, F, q_zero, mu_zero, epsil=0):
     d = mesh.dim
     W = L2(mesh, order=p+d)
     U = L2(mesh, order=p)
-    Zq = H1(mesh, order=p+1, dirichlet=q_zero,
-            flags={'orderinner': 0})
-    Zmu = H1(mesh, order=p+1, dirichlet=mu_zero,
-             flags={'orderinner': 0})
+    Zq = H1(mesh, order=p+1, dirichlet=q_zero, orderinner=0)
+    Zmu = H1(mesh, order=p+1, dirichlet=mu_zero, orderinner=0)
 
     spacelist = [W]*d + [U]*d + [Zq]*(d-1) + [Zmu]
     X = FESpace(spacelist)
@@ -84,8 +83,7 @@ def makeforms(mesh, p, F, q_zero, mu_zero, epsil=0):
 
     n = specialcf.normal(d)
 
-    a = BilinearForm(X, symmetric=True,
-                     flags={"eliminate_internal": True})
+    a = BilinearForm(X, symmetric=True, eliminate_internal=True)
     a += SymbolicBFI(vec(e) * vec(w))
     a += SymbolicBFI(waveA(e) * waveA(w))
     a += SymbolicBFI(-vec(u) * waveA(w))
@@ -173,17 +171,26 @@ def print_rates(err, hs):
 
 if __name__ == '__main__':
 
-    example = '3d'     # Choose the demo to run
+    ngs.ngsglobals.msg_level = 1
+    demos = ['2d_triangular',
+             '2d_rectangular',
+             '3d_tetrahedral',
+             '3d_hexahedral']
 
-    ngs.ngsglobals.msg_level = 3
+    example = demos[3]     # Choose the demo to run
 
-    if example == '2d':
+    if example[:3] == '2d_':
 
         maxr = 5       # max refinement
         h0 = 0.25      # coarsest mesh size
         p = 1          # polynomial degree
 
-        mesh = ngs.Mesh(unit_square.GenerateMesh(maxh=h0))
+        if example[3:] == 'triangular':
+            mesh = ngs.Mesh(unit_square.GenerateMesh(maxh=h0))
+        elif example[3:] == 'rectangular':
+            mesh = ngs.Mesh(unit_square.GenerateMesh(maxh=h0,
+                                                     quad_dominated=True))
+
         q_zero = 'bottom'  # mesh boundary parts where q = 0,
         mu_zero = 'bottom|right|left'         # where mu = 0.
 
@@ -206,7 +213,7 @@ if __name__ == '__main__':
 
         print_rates(er, hs)
 
-    elif example == '3d':
+    elif example == '3d_tetrahedral':
 
         maxr = 4       # max refinement
         h0 = 1.0       # coarsest mesh size
@@ -231,5 +238,33 @@ if __name__ == '__main__':
             e, *rest = solvewavedirect(mesh, p, F, q_zero, mu_zero, exactu)
             er.append(e)
             mesh.Refine()
+
+        print_rates(er, hs)
+
+    elif example == '3d_hexahedral':
+
+        maxr = 4       # max refinement
+        h0 = 0.5       # coarsest mesh size
+        p = 0          # polynomial degree
+
+        q_zero = 'Z0'               # mesh boundary parts where q = 0,
+        mu_zero = 'Z0|X0|X1|Y0|Y1'  # where mu = 0.
+        x = ngs.x
+        y = ngs.y
+        t = ngs.z
+        F = CoefficientFunction((0, 0, sin(pi*y)*sin(pi*x)*(2+2*pi*pi*t*t)))
+        exactu = CoefficientFunction((pi*cos(pi*x)*sin(pi*y)*t*t,
+                                      pi*cos(pi*y)*sin(pi*x)*t*t,
+                                      2*sin(pi*x)*sin(pi*y)*t))
+
+        hs = []
+        er = []
+        for l in range(maxr):
+            n = 2**l
+            h = h0 / n
+            hs.append(h)
+            mesh = ngs.Mesh(GenerateCubeMesh(n))
+            e, *rest = solvewavedirect(mesh, p, F, q_zero, mu_zero, exactu)
+            er.append(e)
 
         print_rates(er, hs)
