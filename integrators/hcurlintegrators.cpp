@@ -31,7 +31,7 @@ namespace dpg {
 	   << GetInd1()+1 << " and " << GetInd2()+1 << endl ; 
     }
 
-    virtual bool IsSymmetric() const { return !coeff_a->IsComplex() ; }
+    virtual xbool IsSymmetric() const { return !coeff_a->IsComplex() ; }
     
     virtual string Name () const { return "CurlCurlPG"; }
 
@@ -135,7 +135,7 @@ namespace dpg {
 	   << GetInd1()+1 << " and " << GetInd2()+1 << endl ; 
     }
 
-    virtual bool IsSymmetric() const { return !coeff_d->IsComplex() ; }
+    virtual xbool IsSymmetric() const { return !coeff_d->IsComplex() ; }
     
     virtual string Name () const { return "TraceTraceXn"; }
 
@@ -267,7 +267,7 @@ namespace dpg {
 	   << GetInd1()+1 << " and " << GetInd2()+1 << endl ; 
     }
 
-    virtual bool IsSymmetric() const { return !coeff_a->IsComplex() ; }
+    virtual xbool IsSymmetric() const { return !coeff_a->IsComplex() ; }
     
     virtual string Name () const { return "EyeEyeEdge"; }
 
@@ -361,7 +361,7 @@ public:
 	 << GetInd1()+1 << " and " << GetInd2()+1 << endl ; 
   }
 
-  virtual bool IsSymmetric() const { return !coeff_c->IsComplex() ; }
+  virtual xbool IsSymmetric() const { return !coeff_c->IsComplex() ; }
     
   virtual string Name () const { return "XnBoundary"; }
   virtual int DimElement () const { return D-1; }

@@ -81,7 +81,7 @@ namespace dpg {
 	   << GetInd1()+1 << " and " << GetInd2()+1 << endl ; 
     }
 
-    virtual bool IsSymmetric() const { return !coeff_a->IsComplex() ; }
+    virtual xbool IsSymmetric() const { return !coeff_a->IsComplex() ; }
     
     virtual string Name () const { return "GradGrad"; }
 
@@ -131,7 +131,7 @@ namespace dpg {
 	   << GetInd1()+1 << " and " << GetInd2()+1 << endl ; 
     }
 
-    virtual bool IsSymmetric() const { return !coeff_d->IsComplex() ; }
+    virtual xbool IsSymmetric() const { return !coeff_d->IsComplex() ; }
     
     virtual string Name () const { return "FluxTrace"; }
 
@@ -177,7 +177,7 @@ namespace dpg {
     }
 
 
-    virtual bool IsSymmetric() const { return !coeff_a->IsComplex() ; }
+    virtual xbool IsSymmetric() const { return !coeff_a->IsComplex() ; }
     
     virtual string Name () const { return "EyeEye"; }
 
@@ -222,7 +222,7 @@ namespace dpg {
 	   << GetInd1()+1 << " and " << GetInd2()+1 << endl ; 
     }
 
-    virtual bool IsSymmetric() const { return !coeff_c->IsComplex() ; }
+    virtual xbool IsSymmetric() const { return !coeff_c->IsComplex() ; }
     
     virtual string Name () const { return "TraceTrace"; }
     virtual bool BoundaryForm () const { return false; }
@@ -266,7 +266,7 @@ namespace dpg {
 	   << GetInd1()+1 << " and " << GetInd2()+1 << endl ; 
     }
 
-    virtual bool IsSymmetric() const { return !coeff_c->IsComplex() ; }
+    virtual xbool IsSymmetric() const { return !coeff_c->IsComplex() ; }
     
     virtual string Name () const { return "FluxFluxBoundary"; }
     virtual int DimElement () const { return D-1; }
@@ -318,7 +318,7 @@ namespace dpg {
 	   << GetInd1()+1 << " and " << GetInd2()+1 << endl ; 
     }
 
-    virtual bool IsSymmetric() const { return !coeff_c->IsComplex() ; }
+    virtual xbool IsSymmetric() const { return !coeff_c->IsComplex() ; }
     
     virtual string Name () const { return "TraceTraceBoundary"; }
     virtual int DimElement () const { return D-1; }
@@ -377,7 +377,7 @@ namespace dpg {
 	   << GetInd1()+1 << " and " << GetInd2()+1 << endl ; 
     }
 
-    virtual bool IsSymmetric() const { return !coeff_c->IsComplex() ; }
+    virtual xbool IsSymmetric() const { return !coeff_c->IsComplex() ; }
     
     virtual string Name () const { return "RobinVolume"; }
     virtual int DimElement () const { return D; }
@@ -495,7 +495,7 @@ namespace dpg {
 
     }
 
-    virtual bool IsSymmetric() const { return !coeff_c->IsComplex() ; }
+    virtual xbool IsSymmetric() const { return !coeff_c->IsComplex() ; }
     virtual string Name () const { return "FluxTraceBoundary"; }
     virtual int DimElement () const { return D-1; }
     virtual int DimSpace () const { return D; }		
