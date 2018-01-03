@@ -19,7 +19,7 @@ namespace dpg {
   }
 
   void L2EnrichedQuad::CalcDShape (const IntegrationPoint & ip, 
-				   SliceMatrix<> dshape) const {
+				   BareSliceMatrix<> dshape) const {
     AutoDiff<2> x(ip(0),0),  y(ip(1),1);
     l2quad.CalcDShape(ip, dshape);
     int last = (_k+1)*(_k+1);

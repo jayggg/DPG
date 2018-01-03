@@ -125,7 +125,7 @@ public:
                           BareSliceVector<> shape) const ;
 
   virtual void CalcDShape (const IntegrationPoint & ip, 
-			   SliceMatrix<> dshape) const  {
+			   BareSliceMatrix<> dshape) const  {
 
     throw Exception("CalcDShape not available for trace element");
     
