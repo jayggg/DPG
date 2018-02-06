@@ -192,7 +192,7 @@ namespace ngcomp  {
       for (int i=0; i < ma->GetNEdges(); i++) {
       	
 	// pnums = endpoint vertices of edge i
-	  ma->GetEdgePNums(i,pnums); 
+	  pnums = ma->GetEdgePNums(i); 
 	  
 	  // collect dof nums interior to edge i in dofs.
 	  fes->GetEdgeDofNrs(i,dofs);
@@ -206,7 +206,7 @@ namespace ngcomp  {
 	for (int i=0; i < ma->GetNFaces(); i++) {      
 
 	  // pnums = vertices of face i
-	  ma->GetFacePNums(i,pnums); 
+	  pnums = ma->GetFacePNums(i); 
 	  
 	  // collect dof nums interior to face i in dofs.
 	  fes->GetFaceDofNrs(i,dofs);

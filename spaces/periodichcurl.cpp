@@ -188,10 +188,9 @@ void PeriodicHCurlSpace :: Update (LocalHeap & lh) {
   HashTable<INT<2>, int> vp2e(ma->GetNEdges());
 
   for (int enr = 0; enr < ma->GetNEdges(); enr++)  {
-    int v1, v2;
-    ma->GetEdgePNums (enr, v1, v2);
-    if (v1 > v2) Swap (v1, v2);
-    vp2e[INT<2>(v1,v2)] = enr;
+    auto vs = ma->GetEdgePNums (enr);
+    if (vs[0] > vs[1]) Swap (vs[0], vs[1]);
+    vp2e[vs] = enr;
   }
 
   // Make a vertex-triple-or-quartet to face hashtable
@@ -200,7 +199,7 @@ void PeriodicHCurlSpace :: Update (LocalHeap & lh) {
 
   Array<int> pnums;
   for (int fnr = 0; fnr < ma->GetNFaces(); fnr++)   {
-    ma->GetFacePNums (fnr, pnums);
+    pnums = ma->GetFacePNums(fnr);
     INT<4> i4;
     if (pnums.Size() == 3) 
       i4 = {-1, pnums[0], pnums[1], pnums[2]};
@@ -242,11 +241,11 @@ void PeriodicHCurlSpace :: Update (LocalHeap & lh) {
     for (int enr = 0; enr < ma->GetNEdges(); enr++) {
 
       int v1, v2;
-      ma->GetEdgePNums (enr, v1, v2);
+      auto vs = ma->GetEdgePNums (enr);
     
-      int mv1 = vertmapx[v1];                // master vertex numbers
-      int mv2 = vertmapx[v2];
-      if (v1 != mv1 && v2 != mv2) {          // edge shall be mapped
+      int mv1 = vertmapx[vs[0]];                // master vertex numbers
+      int mv2 = vertmapx[vs[1]];
+      if (vs[0] != mv1 && vs[1] != mv2) {          // edge shall be mapped
 	if (mv1 > mv2) Swap (mv1, mv2);
 	int menr = vp2e[INT<2>(mv1,mv2)];    // the master edge-nr
       
@@ -272,7 +271,7 @@ void PeriodicHCurlSpace :: Update (LocalHeap & lh) {
   
     for (int fnr = 0; fnr < ma->GetNFaces(); fnr++)  {
 
-      ma->GetFacePNums (fnr, pnums);
+      pnums = ma->GetFacePNums (fnr);
       INT<4> i4;
 
       if (pnums.Size() == 3) 
@@ -336,12 +335,12 @@ void PeriodicHCurlSpace :: Update (LocalHeap & lh) {
     for (int enr = 0; enr < ma->GetNEdges(); enr++)
       {
 	int v1, v2;
-	ma->GetEdgePNums (enr, v1, v2);
+	auto vs = ma->GetEdgePNums (enr);
     
 	// number of master-vertices
-	int mv1 = vertmapy[v1];   // 
-	int mv2 = vertmapy[v2];
-	if (v1 != mv1 && v2 != mv2) // edge shall be mapped
+	int mv1 = vertmapy[vs[0]]; 
+	int mv2 = vertmapy[vs[1]];
+	if (vs[0] != mv1 && vs[1] != mv2) // edge shall be mapped
 	  {
 	    if (mv1 > mv2) Swap (mv1, mv2);
 	    int menr = vp2e[INT<2>(mv1,mv2)];  // the master edge-nr
@@ -362,7 +361,7 @@ void PeriodicHCurlSpace :: Update (LocalHeap & lh) {
     // Find periodic faces
     for (int fnr = 0; fnr < ma->GetNFaces(); fnr++)
       {
-	ma->GetFacePNums (fnr, pnums);
+	pnums = ma->GetFacePNums (fnr);
 	INT<4> i4;
 
 	if (pnums.Size() == 3) 

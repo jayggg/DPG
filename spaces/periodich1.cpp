@@ -142,9 +142,9 @@ void PeriodicH1Space::Update (LocalHeap & lh)  {
   for (int enr = 0; enr < ma->GetNEdges(); enr++)
   {
     int v1, v2;
-    ma->GetEdgePNums (enr, v1, v2);
-    if (v1 > v2) Swap (v1, v2);
-    vp2e[INT<2>(v1,v2)] = enr;
+    auto vs = ma->GetEdgePNums (enr);
+    if (vs[0] > vs[1]) Swap (vs[0], vs[1]);
+    vp2e[INT<2>(vs[0],vs[1])] = enr;
   }
 
 
@@ -155,7 +155,7 @@ void PeriodicH1Space::Update (LocalHeap & lh)  {
   Array<int> pnums;
   for (int fnr = 0; fnr < ma->GetNFaces(); fnr++)
   {
-    ma->GetFacePNums (fnr, pnums);
+    pnums = ma->GetFacePNums (fnr);
     INT<4> i4;
     if (pnums.Size() == 3) 
       i4 = {-1, pnums[0], pnums[1], pnums[2]};
@@ -186,12 +186,12 @@ void PeriodicH1Space::Update (LocalHeap & lh)  {
     for (int enr = 0; enr < ma->GetNEdges(); enr++)
       {
 	int v1, v2;
-	ma->GetEdgePNums (enr, v1, v2);
+	auto vs = ma->GetEdgePNums (enr);
 	// number of master-vertices
 	// use that dofmap[0:nv] is exactly the vertex-map
-	int mv1 = dofmapx[v1];   // 
-	int mv2 = dofmapx[v2];
-	if (v1 != mv1 && v2 != mv2) // edge shall be mapped
+	int mv1 = dofmapx[vs[0]];   // 
+	int mv2 = dofmapx[vs[1]];
+	if (vs[0] != mv1 && vs[1] != mv2) // edge shall be mapped
 	  {
 	    if (mv1 > mv2) Swap (mv1, mv2);
 	    int menr = vp2e[INT<2>(mv1,mv2)];  // the master edge-nr
@@ -210,7 +210,7 @@ void PeriodicH1Space::Update (LocalHeap & lh)  {
     // find periodic faces (using vertex-triple to face hashtable)
     for (int fnr = 0; fnr < ma->GetNFaces(); fnr++)
       {
-	ma->GetFacePNums (fnr, pnums);
+	pnums = ma->GetFacePNums (fnr);
 	INT<4> i4;
 	
 	if (pnums.Size() == 3) 
@@ -268,13 +268,13 @@ void PeriodicH1Space::Update (LocalHeap & lh)  {
     for (int enr = 0; enr < ma->GetNEdges(); enr++)
       {
 	int v1, v2;
-	ma->GetEdgePNums (enr, v1, v2);
+	auto vs = ma->GetEdgePNums (enr);
 
 	// number of master-vertices
 	// use that dofmap[0:nv] is exactly the vertex-map
-	int mv1 = dofmapy[v1];   // 
-	int mv2 = dofmapy[v2];
-	if (v1 != mv1 && v2 != mv2) // edge shall be mapped
+	int mv1 = dofmapy[vs[0]];   // 
+	int mv2 = dofmapy[vs[1]];
+	if (vs[0] != mv1 && vs[1] != mv2) // edge shall be mapped
 	  {
 	    if (mv1 > mv2) Swap (mv1, mv2);
 	    int menr = vp2e[INT<2>(mv1,mv2)];  // the master edge-nr
@@ -293,7 +293,7 @@ void PeriodicH1Space::Update (LocalHeap & lh)  {
     // find periodic faces (using vertex-triple to face hashtable)
     for (int fnr = 0; fnr < ma->GetNFaces(); fnr++)
       {
-	ma->GetFacePNums (fnr, pnums);
+	pnums = ma->GetFacePNums (fnr);
 	INT<4> i4;
 	
 	if (pnums.Size() == 3) 
