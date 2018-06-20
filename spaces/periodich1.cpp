@@ -74,15 +74,11 @@ void PeriodicH1Space::SetPeriodicIds () {
 
   
   Array<INT<2> > pairs;
-  ma->GetPeriodicVertices(0, pairs);
-  int totpairs = pairs.Size();
-  int countpairs = 0 ;
-  int id = 1;
   Vec<3> pt0, pt1;
     
-  while (countpairs < totpairs) {
-
-    ma->GetPeriodicVertices(id, pairs);
+  for (auto id : Range(ma->GetNPeriodicIdentifications()))
+  {
+    pairs = ma->GetPeriodicNodes(NT_VERTEX, id);
     ma->GetPoint(pairs[0][0], pt0);
     ma->GetPoint(pairs[0][1], pt1);
 
@@ -95,7 +91,7 @@ void PeriodicH1Space::SetPeriodicIds () {
     else if ( (abs(xends[1]-pt0[0])<1.e-15) && (abs(xends[0]-pt1[0])<1.e-15) )
       xpair = true;
 
-    bool ypair = false;
+bool ypair = false;
     if (pt0[1] < pt1[1]) {
       if ( (abs(yends[0]-pt0[1])<1.e-15) && (abs(yends[1]-pt1[1])<1.e-15) )
 	ypair = true;
@@ -111,11 +107,8 @@ void PeriodicH1Space::SetPeriodicIds () {
     //   // << " pairs:" << endl
     //   // << pairs << endl;
     //   cout << "first pair:" << pt0 <<"," << pt1 << endl;
-
     // }
     
-    countpairs += pairs.Size();
-    id +=1;    
   }
 
 }
@@ -172,7 +165,7 @@ void PeriodicH1Space::Update (LocalHeap & lh)  {
 
   for (int idx : xid) {
     
-    ma->GetPeriodicVertices(idx, pcbPairs);
+    pcbPairs = ma->GetPeriodicNodes(NT_VERTEX, idx);
   
     // first dofs are vertex dofs    
     for (auto pair : pcbPairs) {
@@ -254,7 +247,7 @@ void PeriodicH1Space::Update (LocalHeap & lh)  {
   // idy  /////////////////////////////////////////////////////////
 
   for (int idy : yid) {
-    ma->GetPeriodicVertices(idy, pcbPairs);
+    pcbPairs = ma->GetPeriodicNodes(NT_VERTEX, idy);
 
     // first dofs are vertex dofs    
     for (auto pair : pcbPairs) {

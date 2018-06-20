@@ -104,21 +104,15 @@ PeriodicHCurlSpace :: ~PeriodicHCurlSpace () {;}
 
 
 void PeriodicHCurlSpace::SetPeriodicIds () {
-
   
   Array<INT<2> > pairs;
-  ma->GetPeriodicVertices(0, pairs);
-  int totpairs = pairs.Size();
-  int countpairs = 0 ;
-  int id = 1;
   Vec<3> pt0, pt1;
     
-  while (countpairs < totpairs) {
-
-    ma->GetPeriodicVertices(id, pairs);
+  for (auto id : Range(ma->GetNPeriodicIdentifications()))
+  {
+    pairs = ma->GetPeriodicNodes(NT_VERTEX, id);
     ma->GetPoint(pairs[0][0], pt0);
     ma->GetPoint(pairs[0][1], pt1);
-
 
     bool xpair = false;
     if (pt0[0] < pt1[0]) {
@@ -144,11 +138,7 @@ void PeriodicHCurlSpace::SetPeriodicIds () {
     //   // << " pairs:" << endl
     //   // << pairs << endl;
     //   cout << "first pair:" << pt0 <<"," << pt1 << endl;
-
     // }
-    
-    countpairs += pairs.Size();
-    id +=1;    
   }
 
 }
@@ -226,8 +216,7 @@ void PeriodicHCurlSpace :: Update (LocalHeap & lh) {
 	looping over potential multiple x-periodic ids.
      */
     
-    
-    ma->GetPeriodicVertices(idx, periodic_verts);
+    periodic_verts = ma->GetPeriodicNodes(NT_VERTEX, idx);
 
     for (auto pair : periodic_verts) {
       int p1 = pair[1];
@@ -322,7 +311,7 @@ void PeriodicHCurlSpace :: Update (LocalHeap & lh) {
     vertmapy[i] = i;
 
   for (int idy : yid) {
-    ma->GetPeriodicVertices(idy, periodic_verts);
+    periodic_verts = ma->GetPeriodicNodes(NT_VERTEX, idy);
 
     for (auto pair : periodic_verts) {
       int p1 = pair[1];
