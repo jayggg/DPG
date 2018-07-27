@@ -1,0 +1,6 @@
+*.o
+*.ini
+*.swp
+*.so
+.cache
+__pycache__
