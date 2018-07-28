@@ -33,18 +33,18 @@ def solve_periodicmaxwell(p, k, bdry, kbdry, f, Eex,
 
     mesh = Mesh("../pde/periodiclayers.vol.gz")
     S0 = FESpace("hcurlho", mesh, order=p+3, complex=True,
-                 flags={"discontinuous":True})
+                 discontinuous=True)
     S1 = FESpace("hcurlho_periodic", mesh, order=p, complex=True,
-                 flags={'xends':[0,1], 'yends':[0,1] })
+                 xends=[0,1], yends=[0,1] )
     S2 = FESpace("hcurlho_periodic", mesh, order=p+1, complex=True,
-                 flags={"orderinner": 0, 'xends':[0,1], 'yends':[0,1]})
-    S = FESpace( [S0,S1,S2], flags={"complex":True})
+                 orderinner=0, xends=[0,1], yends=[0,1])
+    S = FESpace( [S0,S1,S2], complex=True)
 
     e,E,M = S.TrialFunction()
     v,F,W = S.TestFunction()
 
     b = LinearForm(S)
-    a = BilinearForm(S, symmetric=False, flags={"eliminate_internal" : True})
+    a = BilinearForm(S, symmetric=False, eliminate_internal=True)
 
 
     # If True, use NGSolve's symbolic forms.

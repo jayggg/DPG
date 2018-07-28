@@ -17,7 +17,7 @@ def solvedpg(p, h,
     mesh = Mesh(unit_square.GenerateMesh(quad_dominated=True, maxh=h))
     
     X = H1(mesh, order=p+1, dirichlet=[1,2,3,4])
-    Q = HDiv(mesh, order=p, flags={"orderinner": 0})
+    Q = HDiv(mesh, order=p, orderinner=0)
     Y = L2(mesh, order=p+2)
     XY = FESpace( [X,Q,Y])
 
@@ -25,7 +25,7 @@ def solvedpg(p, h,
     w,r,d = XY.TestFunction()
     n = specialcf.normal(mesh.dim)
 
-    a = BilinearForm(XY, symmetric=True, flags={"eliminate_internal" : True})
+    a = BilinearForm(XY, symmetric=True, eliminate_internal=True)
     a+= SymbolicBFI(grad(u) * grad(d))
     a+= SymbolicBFI(grad(e) * grad(w))
     a+= SymbolicBFI(q*n*d, element_boundary=True)

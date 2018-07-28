@@ -17,16 +17,16 @@ f = CoefficientFunction( lam*exp(-100.0*(x*x+y*y)) )
 p = 3
 
 Xo = H1(mesh,order=p+1,dirichlet=[1],complex=True)
-Xf = HDiv(mesh,order=p,complex=True,flags={"orderinner":1})
+Xf = HDiv(mesh,order=p,complex=True,orderinner=1)
 Y  = L2(mesh,order=p+2,complex=True)
-XY = FESpace([Xo,Xf,Y], flags={"complex":True})
+XY = FESpace([Xo,Xf,Y], complex=True)
 
 u,q,e = XY.TrialFunction()
 w,r,d = XY.TestFunction()
 
 n = specialcf.normal(mesh.dim)
 
-a = BilinearForm(XY,symmetric=True,flags={"eliminate_internal" : True})
+a = BilinearForm(XY,symmetric=True, eliminate_internal=True)
 a+= SymbolicBFI(grad(u) * grad(d) + grad(e) * grad(w))
 a+= SymbolicBFI(q*n*d, element_boundary=True)
 a+= SymbolicBFI(e*r*n, element_boundary=True)

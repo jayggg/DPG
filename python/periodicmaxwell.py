@@ -83,20 +83,20 @@ ikbarg=CoefficientFunction([(0            ,  0                 , 0),
 
 
 p = 3 
-S0 = FESpace("hcurlho", mesh, order=p+3, complex=True,
-             flags={"discontinuous":True})
-S1 = FESpace("hcurlho_periodic", mesh, order=p, complex=True,
-             flags={'xends':[0,1], 'yends':[0,1] })
+S0 = FESpace("hcurlho", mesh, order=p+3, complex=True, 
+            discontinuous=True)
+S1 = FESpace("hcurlho_periodic", mesh, order=p, complex=True, 
+            xends=[0,1], yends=[0,1] )
 S2 = FESpace("hcurlho_periodic", mesh, order=p+1, complex=True,
-             flags={"orderinner": 0, 'xends':[0,1], 'yends':[0,1]})
-S = FESpace( [S0,S1,S2], flags={"complex":True})
+             orderinner=0, xends=[0,1], yends=[0,1])
+S = FESpace( [S0,S1,S2], complex=True)
 
 e,E,M = S.TrialFunction()
 v,F,W = S.TestFunction()
 
 
 b = LinearForm(S)
-a = BilinearForm(S, symmetric=False, flags={"eliminate_internal" : True})
+a = BilinearForm(S, symmetric=False, eliminate_internal=True)
 
 
 if symbolic:

@@ -35,9 +35,9 @@ def test_maxwell():
 
     p = 3;
     Xo= HCurl(mesh, order=p+1,dirichlet=[1,2,3,4,5,6],complex=True)
-    Xh= HCurl(mesh, order=p,  complex=True,flags={"orderinner": 1})
-    Y = HCurl(mesh, order=p+4,complex=True,flags={"discontinuous": True})
-    XY = FESpace([Xo,Xh,Y], flags={"complex":True})
+    Xh= HCurl(mesh, order=p,  complex=True, orderinner=1)
+    Y = HCurl(mesh, order=p+4,complex=True, discontinuous=True)
+    XY = FESpace([Xo,Xh,Y], complex=True)
 
     E,M,e = XY.TrialFunction()
     G,W,d = XY.TestFunction()
@@ -51,7 +51,7 @@ def test_maxwell():
 
     # Set bilinear and linear forms using NGSpy's symbolic forms
 
-    a = BilinearForm(XY, symmetric=False, flags={"eliminate_internal" : True})
+    a = BilinearForm(XY, symmetric=False, eliminate_internal=True)
     a+= SymbolicBFI(curl(E) * curl(d) - k*k*E*d)
     a+= SymbolicBFI(curl(e) * curl(G) - k*k*e*G)
     a+= SymbolicBFI(M * cross(d,n), element_boundary=True)
