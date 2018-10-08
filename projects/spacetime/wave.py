@@ -1,12 +1,12 @@
 """
 Spacetime wave simulation using DPG in 2 and 3 dimensional spacetime.
 
-Test norm: (e,w)_W = (waveA(e), waveA(w)) + (e,w)
+Test norm: (e,w)_W = (waveA(e, cwave), waveA(w, cwave)) + (e,w)
 
-DPG form: b((u,z), w) = -(u, waveA(w)) + <waveD(z), w>
+DPG form: b((u,z), w) = -(u, waveA(w, cwave)) + <waveD(n, z, cwave, w>
 
 Here waveA is the first order wave operator and waveD is the
-corresponding boundary opeartor, both defined below as python
+corresponding boundary operator, both defined below as python
 functions.
 """
 
@@ -24,41 +24,41 @@ def vec(listfun):
     return CoefficientFunction(tuple(f for f in listfun))
 
 
-def waveA(u):    # Return action of the first order wave operator on u
+def waveA(u,cwave):  # Return action of the first order wave operator on u
 
     if len(u) == 2:
         q, mu = u
         dxq, dtq = ngs.grad(q)
         dxmu, dtmu = ngs.grad(mu)
-        return CoefficientFunction((dtq - dxmu, dtmu - dxq))
+        return CoefficientFunction((dtq - cwave*dxmu, dtmu - cwave*dxq))
     elif len(u) == 3:
         q1, q2, mu = u
         dxq1, dyq1, dtq1 = ngs.grad(q1)
         dxq2, dyq2, dtq2 = ngs.grad(q2)
         dxmu, dymu, dtmu = ngs.grad(mu)
-        return CoefficientFunction((dtq1 - dxmu,
-                                    dtq2 - dymu,
-                                    dtmu - dxq1 - dyq2))
+        return CoefficientFunction((dtq1 - cwave*dxmu,
+                                    dtq2 - cwave*dymu,
+                                    dtmu - cwave*dxq1 - cwave*dyq2))
     else:
         raise ValueError('Wave operator cannot act on vectors of length %d'
                          % len(u))
 
 
-def waveD(n, z):  # Return action of boundary matrix Dn on z
+def waveD(n, z, cwave):  # Return action of boundary matrix Dn on z
 
     if len(z) == 2:
-        return CoefficientFunction((n[1]*z[0] - n[0]*z[1],
-                                    n[1]*z[1] - n[0]*z[0]))
+        return CoefficientFunction((n[1]*z[0] - cwave*n[0]*z[1],
+                                    n[1]*z[1] - cwave*n[0]*z[0]))
     elif len(z) == 3:
-        return CoefficientFunction((n[2]*z[0] - n[0]*z[2],
-                                    n[2]*z[1] - n[1]*z[2],
-                                    n[2]*z[2] - n[0]*z[0] - n[1]*z[1]))
+        return CoefficientFunction((n[2]*z[0] - cwave*n[0]*z[2],
+                                    n[2]*z[1] - cwave*n[1]*z[2],
+                                    n[2]*z[2] - cwave*n[0]*z[0] - cwave*n[1]*z[1]))
     else:
         raise ValueError('Boundary operator given vector of length %d'
                          % len(z))
 
 
-def makeforms(mesh, p, F, q_zero, mu_zero, epsil=0):
+def makeforms(mesh, p, F, q_zero, mu_zero, cwave, epsil=0):
 
     d = mesh.dim
     W = L2(mesh, order=p+d)
@@ -85,11 +85,11 @@ def makeforms(mesh, p, F, q_zero, mu_zero, epsil=0):
 
     a = BilinearForm(X, symmetric=True, eliminate_internal=True)
     a += SymbolicBFI(vec(e) * vec(w))
-    a += SymbolicBFI(waveA(e) * waveA(w))
-    a += SymbolicBFI(-vec(u) * waveA(w))
-    a += SymbolicBFI(-waveA(e) * vec(v))
-    a += SymbolicBFI(vec(e) * waveD(n, zv), element_boundary=True)
-    a += SymbolicBFI(waveD(n, zu) * vec(w), element_boundary=True)
+    a += SymbolicBFI(waveA(e, cwave) * waveA(w, cwave))
+    a += SymbolicBFI(-vec(u) * waveA(w, cwave))
+    a += SymbolicBFI(-waveA(e, cwave) * vec(v))
+    a += SymbolicBFI(vec(e) * waveD(n, zv, cwave), element_boundary=True)
+    a += SymbolicBFI(waveD(n, zu, cwave) * vec(w), element_boundary=True)
     a += SymbolicBFI(-epsil * vec(zu) * vec(zv))
 
     f = LinearForm(X)
@@ -109,9 +109,9 @@ def compute_error(euz, sep, exactu):
     return er
 
 
-def solvewave(mesh, p, F, q_zero, mu_zero, exactu=None):
+def solvewave(mesh, p, F, q_zero, mu_zero, cwave, exactu=None):
 
-    a, f, X, sep = makeforms(mesh, p, F, q_zero, mu_zero)
+    a, f, X, sep = makeforms(mesh, p, F, q_zero, mu_zero, cwave)
     euz = GridFunction(X)
     c = Preconditioner(type="local", bf=a)
     a.Assemble()
@@ -123,10 +123,10 @@ def solvewave(mesh, p, F, q_zero, mu_zero, exactu=None):
     return (er, euz, sep, X)
 
 
-def solvewavedirect(mesh, p, F, q_zero, mu_zero,
+def solvewavedirect(mesh, p, F, q_zero, mu_zero, cwave,
                     exactu=None, epsil=1.e-9):
 
-    a, f, X, sep = makeforms(mesh, p, F, q_zero, mu_zero, epsil=epsil)
+    a, f, X, sep = makeforms(mesh, p, F, q_zero, mu_zero, cwave, epsil=epsil)
 
     euz = GridFunction(X)
     a.Assemble()
@@ -196,6 +196,7 @@ if __name__ == '__main__':
 
         x = ngs.x
         t = ngs.y
+        cwave = 1
         f = 2*pi*pi*sin(pi*x)*cos(2*pi*t) + pi*pi*sin(pi*x)*sin(pi*t)*sin(pi*t)
         F = CoefficientFunction((0, f))
         exactu = CoefficientFunction((pi*cos(pi*x)*sin(pi*t)*sin(pi*t),
@@ -206,8 +207,8 @@ if __name__ == '__main__':
         for l in range(maxr):
             h = h0 * 2**(-l)
             hs.append(h)
-            e, *rest = solvewavedirect(mesh, p, F, q_zero, mu_zero, exactu)
-            # e, *rest = solvewave(mesh, p, F, q_zero, mu_zero, exactu)
+            e, *rest = solvewavedirect(mesh, p, F, q_zero, mu_zero, cwave, exactu)
+            # e, *rest = solvewave(mesh, p, F, q_zero, mu_zero, cwave, exactu)
             er.append(e)
             mesh.Refine()
 
@@ -225,6 +226,7 @@ if __name__ == '__main__':
         x = ngs.x
         y = ngs.y
         t = ngs.z
+        cwave = 1
         F = CoefficientFunction((0, 0, sin(pi*y)*sin(pi*x)*(2+2*pi*pi*t*t)))
         exactu = CoefficientFunction((pi*cos(pi*x)*sin(pi*y)*t*t,
                                       pi*cos(pi*y)*sin(pi*x)*t*t,
@@ -235,7 +237,7 @@ if __name__ == '__main__':
         for l in range(maxr):
             h = h0 * 2**(-l)
             hs.append(h)
-            e, *rest = solvewavedirect(mesh, p, F, q_zero, mu_zero, exactu)
+            e, *rest = solvewavedirect(mesh, p, F, q_zero, mu_zero, cwave, exactu)
             er.append(e)
             mesh.Refine()
 
@@ -252,6 +254,7 @@ if __name__ == '__main__':
         x = ngs.x
         y = ngs.y
         t = ngs.z
+        cwave = 1
         F = CoefficientFunction((0, 0, sin(pi*y)*sin(pi*x)*(2+2*pi*pi*t*t)))
         exactu = CoefficientFunction((pi*cos(pi*x)*sin(pi*y)*t*t,
                                       pi*cos(pi*y)*sin(pi*x)*t*t,
@@ -264,7 +267,7 @@ if __name__ == '__main__':
             h = h0 / n
             hs.append(h)
             mesh = ngs.Mesh(GenerateCubeMesh(n))
-            e, *rest = solvewavedirect(mesh, p, F, q_zero, mu_zero, exactu)
+            e, *rest = solvewavedirect(mesh, p, F, q_zero, mu_zero, cwave, exactu)
             er.append(e)
 
         print_rates(er, hs)

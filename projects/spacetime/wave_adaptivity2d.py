@@ -19,9 +19,10 @@ mesh = Mesh(unit_square.GenerateMesh(maxh=h0))
 q_zero = 'bottom'              # Mesh boundary parts where q and
 mu_zero = 'bottom|right|left'  # mu has essential b.c
 u00 = exp(-1000 * ((x - 0.5) * (x - 0.5)))  # Nonzero initial condition
+cwave = 1.                                  # wave speed
 F = ngs.CoefficientFunction((0, 0))         # Zero source
 
-a, f, X, sep = makeforms(mesh, p, F, q_zero, mu_zero, epsil=1.e-10)
+a, f, X, sep = makeforms(mesh, p, F, q_zero, mu_zero, cwave, epsil=1.e-10)
 
 euz = GridFunction(X)           # Contains solution at each adaptive step
 q = euz.components[sep[0]]      # Volume (L2) components
@@ -76,7 +77,7 @@ def mark_for_refinement():
 
     # extract estimator component from solution:
     eh = [euz.components[i] for i in range(sep[0])]
-    elerr = ngs.Integrate(vec(eh)*vec(eh) + waveA(eh)*waveA(eh),
+    elerr = ngs.Integrate(vec(eh)*vec(eh) + waveA(eh,cwave)*waveA(eh,cwave),
                           mesh, ngs.VOL, element_wise=True)
     maxerr = max(abs(elerr.NumPy()))
 
