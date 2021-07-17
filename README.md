@@ -1,3 +1,6 @@
+
+*Note:*  This codebase will not be maintained further. All facilities that were made available here for implementing DPG methods are now available directly in recent versions of [NGSolve](https://ngsolve.org). Users wanting to try out DPG methods should proceed to use the python or c++ interfaces of NGSolve. 
+
 # DPG methods in NGSolve
 
 This repository provides facilities to experiment with Discontinuous Petrov Galerkin (DPG) methods. The C++ codes here can be compiled to make a  shared library that can be added onto the 
